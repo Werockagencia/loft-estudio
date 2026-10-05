@@ -123,8 +123,9 @@ footer .card{font-size:13.5px}
   <h1>Loft <em>Estudio</em> + Habitación</h1>
   <p class="lead">Un solo espacio industrial y premium: estudio de música y live act, habitación con cama Murphy, centro de entretenimiento y una terraza nueva con pérgola de vidrio. Todo pensado para construirlo tú mismo con asesoría.</p>
   <div class="chips">
-    <span class="chip"><b>~22 m²</b> interior abierto</span>
-    <span class="chip"><b>3,6 m²</b> terraza nueva</span>
+    <span class="chip"><b>~23 m²</b> interior abierto</span>
+    <span class="chip"><b>3,9 m²</b> terraza nueva</span>
+    <span class="chip">Muros de <b>20 cm</b> sumados</span>
     <span class="chip">Estilo <b>industrial</b></span>
     <span class="chip">Insonorización <b>completa</b></span>
     <span class="chip">Techo libre supuesto <b>3,20 m</b></span>
@@ -164,7 +165,7 @@ footer .card{font-size:13.5px}
   <section id="planos">
     <div class="sec-head">
       <div><div class="num-k">01 — PLANOS</div><h2>Antes y después</h2>
-      <p>Medidas tomadas de tus planos (cm). En rojo punteado lo que se demuele; en azul los ventanales y puertas-ventana nuevos.</p></div>
+      <p>Las cotas de tus planos son espacio libre (cm); a eso se suman los muros de 20 cm (en naranja). Al tumbar el muro entre habitación y estudio ganas esos 20 cm. En rojo punteado va lo que se demuele y en azul los ventanales y puertas-ventana nuevos.</p></div>
     </div>
     <div class="plans">
       <div class="card">
@@ -225,17 +226,17 @@ footer .card{font-size:13.5px}
           <li><b>Ventanal de piso a techo</b> (190 cm) con perfil negro y reja tipo balcón francés.</li>
           <li><b>Divisor corredizo</b> de vidrio esmerilado bajo la viga (3 hojas que se apilan contra el muro).</li>
         </ul></div>
-      <div class="card zone"><h3><span class="dot" style="background:#e8e2d6"></span>Baño</h3><div class="meta">255 × 111 cm · estilo de tus referentes</div>
+      <div class="card zone"><h3><span class="dot" style="background:#e8e2d6"></span>Baño</h3><div class="meta">255 × 135 cm libres · estilo de tus referentes</div>
         <ul>
           <li><b>Piso en baldosa hidráulica</b> blanco y negro de estilo clásico.</li>
-          <li><b>Tina compacta de inmersión con regadera</b> (~110 × 75 cm, 55–60 cm de profundidad) ocupando el ancho del baño, en el lugar de la ducha actual. Faldón en porcelanato tipo madera, mampara de vidrio fija sobre el borde, regadera tipo lluvia negra + ducha de mano y nicho iluminado.</li>
-          <li><b>Ojo con la medida:</b> el baño queda con ~111 cm libres de ancho después de enchapar, así que una tina estándar (150–170 cm) no cabe atravesada. Mide el ancho interior real antes de comprar; si da 120 cm o más, cabe una de 120.</li>
+          <li><b>Tina de 130 × 70 cm con regadera</b>, atravesada al fondo en el lugar de la ducha actual (el baño tiene 135 cm libres). Faldón en porcelanato tipo madera, mampara de vidrio fija sobre el borde, regadera tipo lluvia negra + ducha de mano y nicho iluminado.</li>
+          <li><b>Ojo con la medida:</b> después de enchapar deben quedar al menos 132 cm libres para la tina de 130. Confírmalo con cinta métrica antes de comprarla.</li>
           <li><b>Muros en subway blanco</b>. Si al picar aparece ladrillo sano, se puede dejar a la vista y sellado en la zona seca.</li>
           <li><b>Mueble flotante de madera</b> con lavamanos blanco, espejo redondo de marco negro y aplique de pared.</li>
           <li><b>Griferías y accesorios negro mate</b>. La puerta abre hacia afuera para ganar espacio.</li>
           <li><b>Extractor</b> obligatorio (lo pide la ventilación del altillo).</li>
         </ul></div>
-      <div class="card zone"><h3><span class="dot" style="background:#7fae6a"></span>Terraza y bodega</h3><div class="meta">Terraza 260 × 138 cm · altillo sobre el baño</div>
+      <div class="card zone"><h3><span class="dot" style="background:#7fae6a"></span>Terraza y bodega</h3><div class="meta">Terraza 260 × 150 cm · altillo sobre el baño</div>
         <ul>
           <li><b>Losa nueva</b> sobre el techo del patio, impermeabilizada, con pendiente hacia el desagüe y deck de WPC.</li>
           <li><b>Pérgola de acero negro</b> con techo de vidrio templado laminado y luces colgantes.</li>
@@ -329,7 +330,7 @@ footer .card{font-size:13.5px}
 
 <footer class="wrap">
   <div class="card">
-    <b>Supuestos de este modelo.</b> Las medidas en planta salen de tus planos. La altura libre de 3,20 m sin cielo raso es una estimación, y si es menor, el altillo se ajusta. Los muebles tienen medidas estándar. El 3D es una representación de diseño, no un render fotorrealista ni un plano de construcción.
+    <b>Supuestos de este modelo.</b> Las medidas en planta salen de tus planos y se toman como espacio libre, con muros de 20 cm sumados aparte (total libre ≈ 640 × 565 cm). La altura libre de 3,20 m sin cielo raso es una estimación, y si es menor, el altillo se ajusta. Los muebles tienen medidas estándar. El 3D es una representación de diseño, no un render fotorrealista ni un plano de construcción.
   </div>
 </footer>
 
@@ -338,6 +339,16 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+/* ===================== MEDIDAS =====================
+   Las cotas de los planos son espacio LIBRE. Los muros (20 cm) se suman aparte.
+   El diseño se trazó en una grilla base; mx/my la llevan a la medida real. */
+const lerpK=(v,K)=>{if(v<=K[0][0])return v+(K[0][1]-K[0][0]);for(let i=1;i<K.length;i++){if(v<=K[i][0]){const[a0,b0]=K[i-1],[a1,b1]=K[i];return b0+(v-a0)*(b1-b0)/(a1-a0);}}const[a,b]=K[K.length-1];return v+(b-a);};
+const KX=[[255,255],[267,275],[350,358],[360,380]];
+const KYL=[[290,290],[302,310],[413,445],[425,465],[545,565]];
+const KYR=[[395,395],[407,415],[545,565]];
+const mx=x=>lerpK(x,KX);
+const my=(y,x)=>lerpK(y,x<360?KYL:KYR);
 
 /* ===================== DATA (shared by 3D + plan) ===================== */
 const ITEMS = [
@@ -362,10 +373,12 @@ const ITEMS = [
 /* ===================== 2D PLANS ===================== */
 function planSVG(mode){
   let s='';
-  const R=(x0,y0,x1,y1,cls,ex='')=>{s+=`<rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" class="${cls}" ${ex}/>`;};
-  const T=(x,y,t,cls='lab',ex='')=>{s+=`<text x="${x}" y="${y}" class="${cls}" ${ex}>${t}</text>`;};
-  const L=(x0,y0,x1,y1,cls)=>{s+=`<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" class="${cls}"/>`;};
-  const N=(x,y,n)=>{s+=`<g class="pn"><circle cx="${x}" cy="${y}" r="12"/><text x="${x}" y="${y+4}">${n}</text></g>`;};
+  const RR=(x0,y0,x1,y1,cls,ex='')=>{s+=`<rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" class="${cls}" ${ex}/>`;};
+  const R=(x0,y0,x1,y1,cls,ex='')=>{const xc=(x0+x1)/2;RR(mx(x0),my(y0,xc),mx(x1),my(y1,xc),cls,ex);};
+  const TR=(x,y,t,cls='lab',ex='')=>{s+=`<text x="${x}" y="${y}" class="${cls}" ${ex}>${t}</text>`;};
+  const T=(x,y,t,cls='lab',ex='')=>TR(mx(x),my(y,x),t,cls,ex);
+  const L=(x0,y0,x1,y1,cls)=>{const xc=(x0+x1)/2;s+=`<line x1="${mx(x0)}" y1="${my(y0,xc)}" x2="${mx(x1)}" y2="${my(y1,xc)}" class="${cls}"/>`;};
+  const N=(x0,y0,n)=>{const x=mx(x0),y=my(y0,x0);s+=`<g class="pn"><circle cx="${x}" cy="${y}" r="12"/><text x="${x}" y="${y+4}">${n}</text></g>`;};
   // zones
   if(mode==='actual'){
     R(0,0,360,290,'z1');R(360,0,620,395,'z2');R(0,302,255,413,'z3');R(360,407,620,545,'zh');
@@ -385,7 +398,7 @@ function planSVG(mode){
     R(-15,42,0,230,'win'); R(380,395,600,407,'win'); R(360,410,372,530,'win'); R(-15,330,0,385,'win');
     T(180,150,'Habitación','lab'); T(490,200,'Estudio','lab'); T(128,365,'Baño','lab sm'); T(490,480,'Techo sobre el patio','lab sm');
     T(312,368,'Hall','lab sm');
-    s+=`<path d="M372 420 l40 0 M372 440 l80 0 M372 460 l120 0 M372 480 l160 0 M372 500 l200 0 M372 520 l240 0" class="hatch"/>`;
+    for(let k=0;k<6;k++) L(372,420+20*k,412+40*k,420+20*k,"hatch");
   } else {
     W(255,302,267,330); W(255,400,267,413);
     // removed walls
@@ -407,18 +420,19 @@ function planSVG(mode){
     F(392,12,448,62); // rack
     F(575,250,620,390); // vinyl
     R(395,95,555,335,'rug');
-    F(0,302,80,413); R(8,309,72,406,'tub','rx="18"'); F(100,365,170,413); F(185,345,225,413); // bath
+    RR(0,310,74,445,'f'); RR(8,318,64,437,'tub','rx="18"'); RR(91,395,167,445,'f'); RR(184,375,224,445,'f'); // baño (medidas reales)
     F(590,420,618,520); // bar
     F(380,520,480,540); // planter
     F(267,413,360,421); // stair door
     s+=`<circle cx="490" cy="150" r="22" class="f"/>`;
     for(const [n,,, p] of ITEMS){ N(p[0],p[1],n); }
   }
-  // dims
-  T(180,-30,'360','dim');T(490,-30,'260','dim');T(-40,150,'290','dim','transform="rotate(-90 -40 150)"');
-  T(660,200,'395','dim','transform="rotate(90 660 200)"');T(660,476,'150','dim','transform="rotate(90 660 476)"');
-  T(-40,360,'135','dim','transform="rotate(-90 -40 360)"');
-  return `<svg viewBox="-70 -60 760 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plano ${mode}">
+  // cotas: espacio libre + muros de 20
+  TR(180,-28,'360','dim');TR(370,-28,'+20','dim mu');TR(510,-28,'260','dim');TR(327,-50,'Total libre ≈ 640','dim mu');
+  TR(-40,150,'290','dim','transform="rotate(-90 -40 150)"');TR(-40,300,'+20','dim mu','transform="rotate(-90 -40 300)"');
+  TR(-40,378,'135','dim','transform="rotate(-90 -40 378)"');TR(-40,455,'+20','dim mu','transform="rotate(-90 -40 455)"');TR(-40,515,'≈100','dim','transform="rotate(-90 -40 515)"');
+  TR(682,200,'395','dim','transform="rotate(90 682 200)"');TR(682,405,'+20','dim mu','transform="rotate(90 682 405)"');TR(682,490,'150','dim','transform="rotate(90 682 490)"');
+  return `<svg viewBox="-70 -72 790 690" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plano ${mode}">
   <style>
     .w{fill:#d6d4cf}.win{fill:#4fb3d9}.rm{fill:none;stroke:#ff5a36;stroke-width:2.5;stroke-dasharray:7 5}
     .beam{fill:#3a3a40;opacity:.85}.div{fill:none;stroke:#9aa7b0;stroke-width:2;stroke-dasharray:3 3}
@@ -430,7 +444,7 @@ function planSVG(mode){
     .st{stroke:#55555c;stroke-width:1.2}.rail{stroke:#ddd;stroke-width:2.5}
     .hatch{stroke:#5a5a62;stroke-width:1.2}
     .lab{fill:#cfcfd4;font:600 18px Inter,sans-serif;text-anchor:middle}.lab.sm{font-size:14px;fill:#9a9aa3}
-    .dim{fill:#8d8d96;font:500 14px Inter,sans-serif;text-anchor:middle}
+    .dim{fill:#8d8d96;font:500 14px Inter,sans-serif;text-anchor:middle}.dim.mu{fill:#e9a35a;font-size:12px}
     .pn circle{fill:#ff5a36;stroke:#fff;stroke-width:1.5}.pn text{fill:#fff;font:700 12px Inter,sans-serif;text-anchor:middle}
   </style>${s}</svg>`;
 }
@@ -461,24 +475,28 @@ const pmrem=new THREE.PMREMGenerator(renderer);
 scene.environment=pmrem.fromScene(new RoomEnvironment(),0.04).texture;
 
 let seed=11; const rnd=(a=0,b=1)=>{seed=(seed*16807)%2147483647;return a+(seed/2147483647)*(b-a);};
-const OX=310,OY=272.5;
-const P=(x,y,h=0)=>new THREE.Vector3((x-OX)/100,h/100,(y-OY)/100);
+const OX=327.5,OY=282.5;
+const PR=(x,y,h=0)=>new THREE.Vector3((x-OX)/100,h/100,(y-OY)/100);      // coordenadas reales
+const P=(x,y,h=0)=>PR(mx(x),my(y,x),h);                                   // grilla base -> real
 const root=new THREE.Group(); scene.add(root);
 const G={upper:new THREE.Group(),ceiling:new THREE.Group(),ctx:new THREE.Group(),labels:new THREE.Group()};
 Object.values(G).forEach(g=>root.add(g));
 
-function box(x0,x1,y0,y1,h0,h1,mat,parent=root,shadow=true){
+function boxR(x0,x1,y0,y1,h0,h1,mat,parent=root,shadow=true){
   const m=new THREE.Mesh(new THREE.BoxGeometry((x1-x0)/100,(h1-h0)/100,(y1-y0)/100),mat);
-  m.position.copy(P((x0+x1)/2,(y0+y1)/2,(h0+h1)/2));
+  m.position.copy(PR((x0+x1)/2,(y0+y1)/2,(h0+h1)/2));
   m.castShadow=shadow; m.receiveShadow=true; parent.add(m); return m;
 }
-function wall(x0,x1,y0,y1,h0,h1,mat,shadow=true){
-  if(h0<CUT&&h1>CUT){box(x0,x1,y0,y1,h0,CUT,mat,root,shadow);box(x0,x1,y0,y1,CUT,h1,mat,G.upper,shadow);}
-  else box(x0,x1,y0,y1,h0,h1,mat,h0>=CUT?G.upper:root,shadow);
+function box(x0,x1,y0,y1,h0,h1,mat,parent=root,shadow=true){const xc=(x0+x1)/2;return boxR(mx(x0),mx(x1),my(y0,xc),my(y1,xc),h0,h1,mat,parent,shadow);}
+function wallR(x0,x1,y0,y1,h0,h1,mat,shadow=true){
+  if(h0<CUT&&h1>CUT){boxR(x0,x1,y0,y1,h0,CUT,mat,root,shadow);boxR(x0,x1,y0,y1,CUT,h1,mat,G.upper,shadow);}
+  else boxR(x0,x1,y0,y1,h0,h1,mat,h0>=CUT?G.upper:root,shadow);
 }
+function wall(x0,x1,y0,y1,h0,h1,mat,shadow=true){const xc=(x0+x1)/2;wallR(mx(x0),mx(x1),my(y0,xc),my(y1,xc),h0,h1,mat,shadow);}
 function plane(x0,x1,y0,y1,h,mat,parent=root){
-  const g=new THREE.PlaneGeometry((x1-x0)/100,(y1-y0)/100); g.rotateX(-Math.PI/2);
-  const m=new THREE.Mesh(g,mat); m.position.copy(P((x0+x1)/2,(y0+y1)/2,h)); m.receiveShadow=true; parent.add(m); return m;
+  const xc=(x0+x1)/2,X0=mx(x0),X1=mx(x1),Y0=my(y0,xc),Y1=my(y1,xc);
+  const g=new THREE.PlaneGeometry((X1-X0)/100,(Y1-Y0)/100); g.rotateX(-Math.PI/2);
+  const m=new THREE.Mesh(g,mat); m.position.copy(PR((X0+X1)/2,(Y0+Y1)/2,h)); m.receiveShadow=true; parent.add(m); return m;
 }
 function lbox(w,h,d,x,y,z,mat,parent){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;parent.add(m);return m;}
 
@@ -623,14 +641,14 @@ const neonBolt=new THREE.MeshBasicMaterial({map:tex(neonBoltC()),transparent:tru
 const neonText=new THREE.MeshBasicMaterial({map:tex(neonTextC('DA GET UP')),transparent:true,toneMapped:false,depthWrite:false});
 
 /* ---------- context: building, ground ---------- */
-box(-15,635,-15,425,-300,-1,M.base,G.ctx,false);
-box(360,635,425,560,-300,-3,M.base,G.ctx,false);
+box(-15,359,-15,425,-300,-1,M.base,G.ctx,false); box(361,635,-15,407,-300,-1,M.base,G.ctx,false);
+box(361,635,407,560,-300,-3,M.base,G.ctx,false); boxR(mx(352),mx(368),-15,415,-300,-1,M.base,G.ctx,false);
 {const g=new THREE.Mesh(new THREE.PlaneGeometry(40,40),M.ground);g.rotation.x=-Math.PI/2;g.position.y=-3.01;g.receiveShadow=true;G.ctx.add(g);}
 
 /* ---------- floors ---------- */
-plane(0,620,0,395,0,rep(M.floor,5.2,3.3));
+plane(0,359.9,0,395,0,rep(M.floor,3.2,3.6)); plane(360,620,0,395,0,rep(M.floor,2.3,3.3)); plane(350,360,0,290,0,rep(M.floor,.2,2.5));
 plane(267,360,395,425,0,rep(M.floor,.8,.25));
-plane(0,255,302,413,.4,rep(M.hydraulic,3.2,1.4));
+plane(0,255,302,413,.4,rep(M.hydraulic,3.2,1.7));
 plane(360,620,407,545,-2,rep(M.deck,2.2,1.2));
 
 /* ---------- exterior walls ---------- */
@@ -682,8 +700,7 @@ box(352,368,0,407,H-34,H-30,M.steelLight);
 
 /* ---------- ceiling (exposed) ---------- */
 {const m=rep(M.oak,4,4);m.side=THREE.DoubleSide;
- const p1=new THREE.Mesh(new THREE.PlaneGeometry(6.2,4.07),m);p1.rotation.x=Math.PI/2;p1.position.copy(P(310,203.5,H));G.ceiling.add(p1);
- const p2=new THREE.Mesh(new THREE.PlaneGeometry(3.6,1.38),m);p2.rotation.x=Math.PI/2;p2.position.copy(P(180,476,H));G.ceiling.add(p2);
+ plane(0,359.9,0,545,H,m,G.ceiling); plane(360,620,0,407,H,m,G.ceiling);
  for(let x=40;x<620;x+=80){ if(Math.abs(x-360)<30) continue; box(x-4,x+4,0,x<360?545:407,H-16,H,M.steel,G.ceiling); }
 }
 
@@ -839,28 +856,29 @@ function plantAt(x,y,s=1){const g=new THREE.Group();g.position.copy(P(x,y,0));g.
     l.position.set(Math.cos(a)*r,.55+rnd(0,.55),Math.sin(a)*r);l.rotation.set(rnd(-.6,.6),a,rnd(-.6,.6));l.castShadow=true;g.add(l);}}
 plantAt(25,268,1.1); plantAt(395,375,.9);
 
-/* ---------- BATHROOM ---------- */
-wall(0,1,302,413,0,222,rep(M.woodTile,1,2));
-wall(0,80,302,303,0,222,M.woodTile); wall(0,80,412,413,0,222,M.woodTile);
-wall(80,255,302,303,0,222,rep(M.subway,3.2,4.4)); wall(80,255,412,413,0,222,rep(M.subway,3.2,4.4));
-box(1,3,330,390,110,140,LED.bath,root,false);
-// tina compacta de inmersión 110 x 78 con regadera
-box(1,7,303,412,0,58,M.ceramic); box(7,72,303,309,0,58,M.ceramic); box(7,72,406,412,0,58,M.ceramic);
-box(7,72,309,406,0,14,M.ceramic); box(72,80,303,412,0,58,rep(M.woodTile,.6,1)); box(71,81,303,412,56,59,M.ceramic);
-box(8,71,310,405,40,40.5,new THREE.MeshPhysicalMaterial({color:0x9fd3e0,transparent:true,opacity:.35,roughness:.05,depthWrite:false}),root,false);
-wall(74,75.5,303,362,59,205,M.glass,false); wall(73.5,76,303,362,203,206,M.steel); wall(73.5,76,360,362,59,205,M.steel);
-box(1,4,350,366,70,86,M.steel); box(1,5,385,389,62,110,M.steel); box(2,6,384,390,108,118,M.steel);
-{const d=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.015,32),M.steel);d.position.copy(P(45,357,205));root.add(d);
- box(44,46,302,357,206,208,M.steel);}
-box(100,170,365,412,45,85,M.oak); box(98,172,363,412,85,88,M.white);
-{const s=new THREE.Mesh(new THREE.CylinderGeometry(.2,.16,.12,32),M.ceramic);s.scale.z=.7;s.position.copy(P(135,385,94));root.add(s);}
-box(134,136,402,410,88,110,M.steel); box(134,136,392,410,108,110,M.steel);
-{const m=new THREE.Mesh(new THREE.TorusGeometry(.3,.015,12,48),M.steel);m.position.copy(P(135,411,162));root.add(m);
- const g=new THREE.Mesh(new THREE.CircleGeometry(.3,48),std({color:0xbfc9cf,roughness:.04,metalness:1}));g.position.copy(P(135,411.8,162));g.rotation.y=Math.PI;root.add(g);}
-box(176,182,408,412,170,190,LED.bath,root,false);
-box(185,225,395,412,40,82,M.ceramic);
-{const t=new THREE.Mesh(new THREE.CylinderGeometry(.18,.15,.4,28),M.ceramic);t.scale.z=1.25;t.position.copy(P(205,372,20));t.castShadow=true;root.add(t);
- const s=new THREE.Mesh(new THREE.CylinderGeometry(.19,.19,.03,28),M.ceramic);s.scale.z=1.25;s.position.copy(P(205,372,41));root.add(s);}
+/* ---------- BATHROOM (medidas reales: 255 × 135 libres) ---------- */
+wallR(0,1,310,445,0,222,rep(M.woodTile,1,2));
+wallR(0,74,310,311,0,222,M.woodTile); wallR(0,74,444,445,0,222,M.woodTile);
+wallR(74,255,310,311,0,222,rep(M.subway,3.4,4.4)); wallR(74,255,444,445,0,222,rep(M.subway,3.4,4.4));
+boxR(1,3,345,410,110,140,LED.bath,root,false);
+// tina 130 x 70 con regadera, atravesada al fondo
+boxR(1,7,311,444,0,58,M.ceramic); boxR(7,66,311,317,0,58,M.ceramic); boxR(7,66,438,444,0,58,M.ceramic);
+boxR(7,66,317,438,0,14,M.ceramic); boxR(66,73,311,444,0,58,rep(M.woodTile,.6,1)); boxR(65,74,311,444,56,59,M.ceramic);
+boxR(8,65,318,437,40,40.5,new THREE.MeshPhysicalMaterial({color:0x9fd3e0,transparent:true,opacity:.35,roughness:.05,depthWrite:false}),root,false);
+wallR(68,69.5,311,382,59,205,M.glass,false); wallR(67.5,70,311,382,203,206,M.steel); wallR(67.5,70,380,382,59,205,M.steel);
+boxR(1,4,372,388,70,86,M.steel); boxR(1,5,410,414,62,110,M.steel); boxR(2,6,409,415,108,118,M.steel);
+{const d=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.015,32),M.steel);d.position.copy(PR(36,378,205));root.add(d);
+ boxR(35,37,311,378,206,208,M.steel);}
+// mueble lavamanos + sanitario sobre el muro sur
+boxR(93,165,397,444,45,85,M.oak); boxR(91,167,395,444,85,88,M.white);
+{const s=new THREE.Mesh(new THREE.CylinderGeometry(.2,.16,.12,32),M.ceramic);s.scale.z=.7;s.position.copy(PR(129,418,94));root.add(s);}
+boxR(128,130,434,442,88,110,M.steel); boxR(128,130,424,442,108,110,M.steel);
+{const m=new THREE.Mesh(new THREE.TorusGeometry(.3,.015,12,48),M.steel);m.position.copy(PR(129,443,162));root.add(m);
+ const g=new THREE.Mesh(new THREE.CircleGeometry(.3,48),std({color:0xbfc9cf,roughness:.04,metalness:1}));g.position.copy(PR(129,443.8,162));g.rotation.y=Math.PI;root.add(g);}
+boxR(170,176,440,444,170,190,LED.bath,root,false);
+boxR(184,224,427,444,40,82,M.ceramic);
+{const t=new THREE.Mesh(new THREE.CylinderGeometry(.18,.15,.4,28),M.ceramic);t.scale.z=1.25;t.position.copy(PR(204,404,20));t.castShadow=true;root.add(t);
+ const s=new THREE.Mesh(new THREE.CylinderGeometry(.19,.19,.03,28),M.ceramic);s.scale.z=1.25;s.position.copy(PR(204,404,41));root.add(s);}
 // loft / bodega
 box(0,267,290,425,222,232,M.white,G.upper);
 box(110,150,350,360,221,221.6,LED.bath,root,false);
