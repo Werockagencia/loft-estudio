@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loft Estudio · Planta 2</title>
+<meta name="description" content="Propuesta de remodelación de la planta 2: habitación y estudio de música integrados en un loft industrial, con terraza. Modelo 3D navegable, planos y notas de obra.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0e10;--surface:#16161a;--surface2:#1d1d22;--line:#2a2a30;
+  --text:#ededee;--muted:#a2a2ab;--accent:#ff5a36;--amber:#e9a35a;--violet:#9b6bff;--blue:#4fb3d9;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Space Grotesk',Inter,sans-serif;letter-spacing:-.015em;margin:0;line-height:1.15}
+a{color:var(--amber)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.hero{padding:56px 0 26px}
+.kicker{text-transform:uppercase;letter-spacing:.16em;font-size:12px;color:var(--accent);font-weight:600}
+h1{font-size:clamp(34px,6.4vw,66px);margin:12px 0 14px}
+h1 em{font-style:normal;color:var(--amber)}
+.lead{color:var(--muted);max-width:760px;font-size:17px;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px;color:var(--muted);background:var(--surface)}
+.chip b{color:var(--text);font-weight:600}
+
+/* 3D viewer */
+.viewer{position:relative;height:min(80vh,780px);min-height:460px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:#121214}
+#c3d{position:absolute;inset:0}
+#c3d canvas{display:block}
+.toolbar{position:absolute;left:10px;right:10px;top:10px;display:flex;flex-wrap:wrap;gap:8px;pointer-events:none;z-index:3}
+.grp{display:flex;flex-wrap:wrap;gap:4px;background:rgba(14,14,16,.74);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:5px;border-radius:12px;border:1px solid rgba(255,255,255,.08);pointer-events:auto}
+.grp .gl{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#8d8d96;padding:8px 6px 0 6px}
+button.b{font:500 13px Inter,sans-serif;color:var(--text);background:transparent;border:0;border-radius:8px;padding:7px 10px;cursor:pointer;white-space:nowrap}
+button.b:hover{background:rgba(255,255,255,.08)}
+button.b.on{background:var(--text);color:#111}
+.hint{position:absolute;left:10px;bottom:10px;font-size:12px;color:#d4d4d8;background:rgba(14,14,16,.66);padding:6px 10px;border-radius:8px;z-index:3;max-width:calc(100% - 20px)}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:14px;z-index:2}
+.lbl{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font:700 11px Inter,sans-serif;display:grid;place-items:center;box-shadow:0 2px 10px rgba(0,0,0,.55);border:1.5px solid rgba(255,255,255,.85);pointer-events:auto;cursor:help}
+
+section{padding:64px 0 0}
+.sec-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:22px}
+.sec-head h2{font-size:clamp(26px,3.6vw,38px)}
+.sec-head p{color:var(--muted);margin:6px 0 0;max-width:640px}
+.num-k{font-family:'Space Grotesk';color:var(--accent);font-size:14px;letter-spacing:.1em}
+
+/* plans */
+.plans{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.seg{display:inline-flex;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:3px;margin-bottom:12px}
+.seg button{font:500 13px Inter;border:0;background:transparent;color:var(--muted);padding:7px 14px;border-radius:7px;cursor:pointer}
+.seg button.on{background:var(--text);color:#111}
+#plan svg{width:100%;height:auto;display:block}
+.legend{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14px}
+.legend li{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start}
+.legend .n{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font:700 11px Inter;display:grid;place-items:center;margin-top:1px}
+.legend small{color:var(--muted);display:block;line-height:1.45}
+.keys{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin-top:12px}
+.keys i{display:inline-block;width:18px;height:6px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+/* decisions */
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.dec h3{font-size:18px;margin:6px 0 8px}
+.dec p{margin:0;color:var(--muted);font-size:14.5px}
+.dec .tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);font-weight:600}
+
+/* zones */
+.zone h3{font-size:20px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.zone h3 .dot{width:10px;height:10px;border-radius:50%}
+.zone ul{margin:0;padding-left:18px;color:#d5d5da;font-size:14.5px}
+.zone li{margin:4px 0}
+.zone li b{color:var(--text)}
+.zone .meta{font-size:12px;color:var(--muted);margin:-4px 0 10px}
+
+/* palette */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.sw{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.sw .c{height:84px}
+.sw div.t{padding:10px 12px;font-size:13px}
+.sw div.t b{display:block;font-size:14px}
+.sw div.t span{color:var(--muted)}
+
+/* obra */
+.warn{border-left:3px solid var(--accent);background:linear-gradient(90deg,rgba(255,90,54,.08),transparent 60%)}
+.warn h3{font-size:17px;margin-bottom:6px}
+.warn p{margin:0;color:#d5d5da;font-size:14.5px}
+.phases{counter-reset:ph;list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.phases li{counter-increment:ph;display:grid;grid-template-columns:44px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.phases li::before{content:counter(ph,decimal-leading-zero);font:700 20px 'Space Grotesk';color:var(--amber)}
+.phases b{display:block}
+.phases span{color:var(--muted);font-size:14px}
+.check{columns:2;column-gap:28px;font-size:14.5px;color:#d5d5da;padding-left:18px;margin:0}
+.check li{break-inside:avoid;margin:5px 0}
+footer{padding:56px 0 64px;color:var(--muted);font-size:13px}
+footer .card{font-size:13.5px}
+
+@media (max-width:900px){
+  .plans,.grid3,.grid2{grid-template-columns:1fr}
+  .check{columns:1}
+  .viewer{height:72vh}
+}
+@media (max-width:560px){
+  button.b{padding:6px 8px;font-size:12px}
+  .grp .gl{display:none}
+}
+</style>
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+}}
+</script>
+</head>
+<body>
+
+<header class="hero wrap">
+  <div class="kicker">Propuesta de remodelación · Planta 2</div>
+  <h1>Loft <em>Estudio</em> + Habitación</h1>
+  <p class="lead">Un solo espacio industrial y premium: estudio de música y live act, habitación con cama Murphy, centro de entretenimiento y una terraza nueva con pérgola de vidrio. Todo pensado para construirlo tú mismo con asesoría.</p>
+  <div class="chips">
+    <span class="chip"><b>~22 m²</b> interior abierto</span>
+    <span class="chip"><b>3,6 m²</b> terraza nueva</span>
+    <span class="chip">Estilo <b>industrial</b></span>
+    <span class="chip">Insonorización <b>completa</b></span>
+    <span class="chip">Techo libre supuesto <b>3,20 m</b></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- 3D -->
+  <div class="viewer" id="viewer">
+    <div id="c3d"></div>
+    <div class="loading" id="loading">Cargando modelo 3D…</div>
+    <div class="toolbar">
+      <div class="grp" id="views">
+        <span class="gl">Vistas</span>
+        <button class="b on" data-view="general">General</button>
+        <button class="b" data-view="estudio">Estudio</button>
+        <button class="b" data-view="live">Live / Vinilos</button>
+        <button class="b" data-view="cama">Desde la cama</button>
+        <button class="b" data-view="llegada">Llegada</button>
+        <button class="b" data-view="bano">Baño</button>
+        <button class="b" data-view="terraza">Terraza</button>
+      </div>
+      <div class="grp" id="toggles">
+        <span class="gl">Modo</span>
+        <button class="b" data-t="night">Noche</button>
+        <button class="b" data-t="bed">Cama abierta</button>
+        <button class="b" data-t="divider">Divisor cerrado</button>
+        <button class="b" data-t="ceiling">Techo</button>
+        <button class="b" data-t="cut">Corte</button>
+        <button class="b on" data-t="labels">Números</button>
+      </div>
+    </div>
+    <div class="hint">Arrastra para girar · rueda o pellizco para acercar · clic derecho o dos dedos para desplazar · pasa el cursor sobre los números</div>
+  </div>
+
+  <!-- PLANOS -->
+  <section id="planos">
+    <div class="sec-head">
+      <div><div class="num-k">01 — PLANOS</div><h2>Antes y después</h2>
+      <p>Medidas tomadas de tus planos (cm). En rojo punteado lo que se demuele; en azul los ventanales y puertas-ventana nuevos.</p></div>
+    </div>
+    <div class="plans">
+      <div class="card">
+        <div class="seg" id="planSeg"><button data-p="propuesta" class="on">Propuesta</button><button data-p="actual">Estado actual</button></div>
+        <div id="plan"></div>
+        <div class="keys">
+          <span><i style="background:#d6d4cf"></i>Muro existente</span>
+          <span><i style="background:transparent;border:1.5px dashed #ff5a36;height:8px"></i>Muro a demoler</span>
+          <span><i style="background:#4fb3d9"></i>Ventanal / puerta-ventana</span>
+          <span><i style="background:#3a3a40"></i>Viga de acero</span>
+        </div>
+      </div>
+      <div class="card">
+        <ol class="legend" id="legend"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- DECISIONES -->
+  <section id="decisiones">
+    <div class="sec-head"><div><div class="num-k">02 — CÓMO LO PENSÉ</div><h2>Las decisiones clave</h2>
+      <p>Tu idea de base se respeta: un solo espacio, cama Murphy frente al baño y TV en el muro del baño. Esto es lo que sumé y por qué.</p></div></div>
+    <div class="grid3">
+      <div class="card dec"><div class="tag">Sonido</div><h3>Escritorio centrado y simétrico</h3><p>El escritorio va contra el muro norte del estudio, centrado. Los JBL de 8" necesitan paredes parecidas a ambos lados para que el estéreo sea real. La puerta-ventana queda a tu espalda: pon una cortina blackout para evitar reflejos en las pantallas.</p></div>
+      <div class="card dec"><div class="tag">Flujo</div><h3>Live act en "L", a un giro de silla</h3><p>El APC40 MK2 va en el escritorio junto al teclado del PC. En el retorno de la derecha van la MAX49, la TD-3 y la Yamaha PSS. Controlas Ableton sin levantarte y con un giro de silla quedas tocando.</p></div>
+      <div class="card dec"><div class="tag">Acústica + estilo</div><h3>Muro de guitarras sobre listones</h3><p>Las dos guitarras y el bajo cuelgan sobre paneles de listón de madera con fieltro. Ese muro es el punto de primera reflexión del monitor derecho, así que el panel decora y a la vez absorbe.</p></div>
+      <div class="card dec"><div class="tag">Vinilos</div><h3>Estación DJ junto a la terraza</h3><p>Lleva cubos para vinilos, dos tornamesas y un mixer encima, con repisas de CDs arriba. Es una zona para mezclar de pie, con la puerta-ventana abierta hacia la terraza.</p></div>
+      <div class="card dec"><div class="tag">Habitación</div><h3>Murphy con closets y sofá</h3><p>La cama queda en el muro opuesto al baño, como pediste, con closets de 85 cm a cada lado. Te sugiero el modelo con sofá integrado: de día queda una sala para jugar y de noche bajas la cama.</p></div>
+      <div class="card dec"><div class="tag">Entretenimiento</div><h3>Muro de ladrillo con TV</h3><p>El muro del baño lleva enchape de ladrillo, LED cálido, TV de 65" y un mueble flotante delgado (30 cm) para PS5 y consolas retro. Con la cama abierta quedan ~15 cm al mueble, y por eso tiene que ser flotante.</p></div>
+      <div class="card dec"><div class="tag">Flexibilidad</div><h3>Divisor de vidrio corredizo</h3><p>Viene de tu referente: paneles de perfil negro con vidrio esmerilado que corren bajo la viga. De día el loft queda abierto; cuando grabas, tienes visita o duermes, lo cierras.</p></div>
+      <div class="card dec"><div class="tag">Estructura</div><h3>Viga de acero vista</h3><p>Si el muro que se tumba resulta portante, se reemplaza por una viga de acero negra. Lo que es un requisito estructural se vuelve el elemento más industrial del espacio.</p></div>
+      <div class="card dec"><div class="tag">Aislamiento</div><h3>Puerta acústica en la escalera</h3><p>La escalera abierta es la mayor fuga de sonido hacia el primer piso. Una puerta de acero y vidrio laminado acústico en la llegada cierra ese hueco y además se ve muy bien.</p></div>
+    </div>
+  </section>
+
+  <!-- ZONAS -->
+  <section id="zonas">
+    <div class="sec-head"><div><div class="num-k">03 — ZONA POR ZONA</div><h2>Qué va en cada espacio</h2></div></div>
+    <div class="grid2">
+      <div class="card zone"><h3><span class="dot" style="background:var(--violet)"></span>Estudio</h3><div class="meta">260 × 395 cm · muro norte, muro este y retorno</div>
+        <ul>
+          <li><b>Escritorio</b> de 240 × 80 cm en roble con patas de acero negro, a 75 cm de altura, en "L" con un retorno de 60 × 160 cm.</li>
+          <li><b>PC con 2 pantallas de 27"</b> en brazo articulado. La torre va bajo el escritorio a la derecha.</li>
+          <li><b>Monitores JBL de 8"</b> sobre pads de aislamiento, con el tweeter a la altura del oído (~1,15 m) y separados ~1,5 m, formando un triángulo con tu cabeza.</li>
+          <li><b>Rack de sonido</b> de 19" (12U) con ruedas, bajo el escritorio a la izquierda.</li>
+          <li><b>Live act:</b> APC40 MK2 en el escritorio; MAX49 en el retorno; TD-3 y Yamaha PSS en una repisa elevada detrás.</li>
+          <li><b>2 guitarras y el bajo</b> en soportes de pared, sobre el panel de listones.</li>
+          <li><b>Estación de vinilos:</b> mueble de 8 cubos (35 cm) con 2 tornamesas y mixer encima, y 2 repisas flotantes para CDs.</li>
+          <li><b>Muro detrás del escritorio</b> con paneles acústicos negros, vinilos exhibidos y un rayo en neón.</li>
+          <li><b>Tapete persa</b> de 160 × 240 cm bajo la silla.</li>
+        </ul></div>
+      <div class="card zone"><h3><span class="dot" style="background:var(--amber)"></span>Habitación</h3><div class="meta">360 × 290 cm · muro norte y muro del baño</div>
+        <ul>
+          <li><b>Cama Murphy queen</b> (160 × 190) vertical, con mueble de 55 cm de fondo y LED en el dintel.</li>
+          <li><b>Closets integrados</b> de 85 cm a cada lado, con frentes de listón de roble ahumado, tiradores negros y la misma altura (2,60 m).</li>
+          <li><b>Sofá integrado</b> de cuero coñac bajo la cama (opcional): queda a la vista cuando la cama está recogida.</li>
+          <li><b>Centro de entretenimiento</b> sobre enchape de ladrillo: TV de 65", barra de sonido, PS5 y repisa para consolas retro. El mueble va flotante a 30–60 cm del piso.</li>
+          <li><b>Ventanal de piso a techo</b> (190 cm) con perfil negro y reja tipo balcón francés.</li>
+          <li><b>Divisor corredizo</b> de vidrio esmerilado bajo la viga (3 hojas que se apilan contra el muro).</li>
+        </ul></div>
+      <div class="card zone"><h3><span class="dot" style="background:#e8e2d6"></span>Baño</h3><div class="meta">255 × 111 cm · estilo de tus referentes</div>
+        <ul>
+          <li><b>Piso en baldosa hidráulica</b> blanco y negro de estilo clásico.</li>
+          <li><b>Ducha walk-in</b> de 90 cm con porcelanato tipo madera, nicho iluminado, regadera tipo lluvia negra y panel de vidrio fijo.</li>
+          <li><b>Muros en subway blanco</b>. Si al picar aparece ladrillo sano, se puede dejar a la vista y sellado en la zona seca.</li>
+          <li><b>Mueble flotante de madera</b> con lavamanos blanco, espejo redondo de marco negro y aplique de pared.</li>
+          <li><b>Griferías y accesorios negro mate</b>. La puerta abre hacia afuera para ganar espacio.</li>
+          <li><b>Extractor</b> obligatorio (lo pide la ventilación del altillo).</li>
+        </ul></div>
+      <div class="card zone"><h3><span class="dot" style="background:#7fae6a"></span>Terraza y bodega</h3><div class="meta">Terraza 260 × 138 cm · altillo sobre el baño</div>
+        <ul>
+          <li><b>Losa nueva</b> sobre el techo del patio, impermeabilizada, con pendiente hacia el desagüe y deck de WPC.</li>
+          <li><b>Pérgola de acero negro</b> con techo de vidrio templado laminado y luces colgantes.</li>
+          <li><b>Barra angosta</b> contra el muro vecino, 2 bancos, jardín vertical y jardinera junto a la baranda.</li>
+          <li><b>Puerta-ventana acústica</b> desde el estudio. La ventana del hall pasa a vidrio fijo de piso a techo.</li>
+          <li><b>Bodega en el altillo</b> sobre el baño (~90 cm libres, con 3,20 m de altura total): cajas rotuladas iguales, baranda y escalera removible desde el hall.</li>
+        </ul></div>
+    </div>
+  </section>
+
+  <!-- MATERIALES -->
+  <section id="materiales">
+    <div class="sec-head"><div><div class="num-k">04 — MATERIALES</div><h2>Paleta industrial premium</h2>
+      <p>Pocos materiales, bien repetidos. Eso es lo que hace que un espacio pequeño se vea caro.</p></div></div>
+    <div class="swatches">
+      <div class="sw"><div class="c" style="background:#1b1b1d"></div><div class="t"><b>Acero negro mate</b><span>Viga, perfiles, rieles, reja, pérgola</span></div></div>
+      <div class="sw"><div class="c" style="background:linear-gradient(90deg,#4a3324,#5d4130 40%,#46301f)"></div><div class="t"><b>Roble ahumado</b><span>Piso SPC, closets, escritorio</span></div></div>
+      <div class="sw"><div class="c" style="background:repeating-linear-gradient(0deg,#8f4a33 0 14px,#c8b9a8 14px 16px)"></div><div class="t"><b>Ladrillo a la vista</b><span>Muro de TV (enchape)</span></div></div>
+      <div class="sw"><div class="c" style="background:#a6a29b"></div><div class="t"><b>Concreto / microcemento</b><span>Muros generales, gris cálido</span></div></div>
+      <div class="sw"><div class="c" style="background:#2b2b2f"></div><div class="t"><b>Grafito</b><span>Muro este del estudio y paneles acústicos</span></div></div>
+      <div class="sw"><div class="c" style="background:repeating-conic-gradient(#ece8df 0 25%,#2a2d33 0 50%) 0 0/28px 28px"></div><div class="t"><b>Baldosa hidráulica</b><span>Piso del baño, blanco y negro</span></div></div>
+      <div class="sw"><div class="c" style="background:linear-gradient(135deg,#6e1f1f,#1d2742)"></div><div class="t"><b>Tapete persa</b><span>Rojo profundo y azul noche</span></div></div>
+      <div class="sw"><div class="c" style="background:radial-gradient(circle at 50% 60%,#ffcf8f,#e9a35a 40%,#2a1d10)"></div><div class="t"><b>LED cálido 2700 K</b><span>Rieles, tiras, nichos</span></div></div>
+      <div class="sw"><div class="c" style="background:radial-gradient(circle at 50% 50%,#ff8a5c,#ff5a36 35%,#2a0f08)"></div><div class="t"><b>Neón rayo</b><span>Acento del estudio (We Rock)</span></div></div>
+    </div>
+  </section>
+
+  <!-- OBRA -->
+  <section id="obra">
+    <div class="sec-head"><div><div class="num-k">05 — PARA LA OBRA</div><h2>Notas para el maestro</h2>
+      <p>Esto es una propuesta de diseño, no un plano estructural. Lo que va en rojo hay que validarlo con un ingeniero antes de picar.</p></div></div>
+
+    <div class="grid2">
+      <div class="card warn"><h3>Muro habitación–estudio: ¿es portante?</h3><p>Antes de tumbarlo hay que verificar si carga la cubierta o un piso superior. Si es portante, un ingeniero civil debe dimensionar la viga de acero y sus apoyos, conforme a la NSR-10. No se tumba "a ojo".</p></div>
+      <div class="card warn"><h3>Teja de fibrocemento: posible asbesto</h3><p>Las tejas viejas tipo "Eternit" pueden contener asbesto (prohibido en Colombia desde 2021, Ley 1968 de 2019). No se rompen, cortan ni lijan en seco. El desmonte se hace con protección respiratoria o con una empresa especializada, y se dispone como residuo peligroso.</p></div>
+      <div class="card warn"><h3>Terraza = losa nueva</h3><p>El techo del patio no es transitable. Hay que construir una losa (aligerada o tipo steel deck) apoyada en elementos con capacidad, impermeabilizarla, darle pendiente del 1–2 % hacia un desagüe y poner una baranda de al menos 1 m.</p></div>
+      <div class="card warn"><h3>Fachada y licencia</h3><p>Agrandar los vanos a piso-techo exige dinteles nuevos. Cambiar la fachada y crear la terraza puede requerir licencia: consulta con la curaduría o la oficina de planeación de tu municipio. El ventanal del segundo piso necesita la reja o baranda que ya pediste.</p></div>
+    </div>
+
+    <h3 style="margin:34px 0 12px;font-size:22px">Insonorización: dos cosas distintas</h3>
+    <div class="grid2">
+      <div class="card zone"><h3><span class="dot" style="background:var(--blue)"></span>Aislar (que no entre ni salga ruido)</h3>
+        <ul>
+          <li><b>Muros perimetrales:</b> trasdosado de perfilería independiente, separado 1 cm del muro, con lana de roca de 2" (40–70 kg/m³) y doble placa de drywall. Todas las juntas van con sello acústico.</li>
+          <li><b>Techo:</b> al quitar el cielo raso queda la cubierta a la vista. La lluvia sobre teja suena muchísimo, así que va aislamiento termoacústico bajo la cubierta o cambio a panel sándwich.</li>
+          <li><b>Ventanales y puerta-ventana:</b> vidrio laminado acústico (por ejemplo 6+6 con PVB acústico) o doble vidrio, con perfiles de doble burlete. La abatible o la corrediza elevable sellan mejor que la corrediza común.</li>
+          <li><b>Puerta de la escalera:</b> de núcleo sólido o con vidrio laminado, burletes perimetrales y guardapolvo automático.</li>
+          <li><b>Piso:</b> SPC sobre manto acústico de 2–3 mm, para reducir el impacto hacia el primer piso.</li>
+        </ul></div>
+      <div class="card zone"><h3><span class="dot" style="background:var(--violet)"></span>Acondicionar (que suene bien adentro)</h3>
+        <ul>
+          <li><b>Trampas de graves</b> en las 2 esquinas del muro este, del piso al techo, con lana de roca de 10 cm.</li>
+          <li><b>Nube acústica</b> de 140 × 140 cm sobre la posición de escucha.</li>
+          <li><b>Paneles</b> en los puntos de primera reflexión. Los listones del muro de guitarras cumplen esa función a la derecha; a la izquierda la cumplen el closet y el divisor.</li>
+          <li><b>Paneles acústicos negros</b> detrás del escritorio.</li>
+          <li><b>Tapetes persas, cama, sofá y cortinas</b> también absorben. El loft amoblado suena mucho mejor que vacío.</li>
+        </ul></div>
+    </div>
+
+    <h3 style="margin:34px 0 12px;font-size:22px">Orden de obra sugerido</h3>
+    <ol class="phases">
+      <li><div><b>Medir y validar</b><span>Altura real bajo la cubierta, espesor de muros, ubicación de bajantes y tuberías. Visita del ingeniero (muro y terraza) y consulta de licencia.</span></div></li>
+      <li><div><b>Demolición</b><span>Cielo raso, muro divisorio, muros del hall, puertas y ventanas viejas. Desmonte seguro de la teja del patio.</span></div></li>
+      <li><div><b>Estructura</b><span>Viga de acero, dinteles de los vanos nuevos, losa de la terraza y estructura del altillo.</span></div></li>
+      <li><div><b>Cubierta</b><span>Aislamiento termoacústico del techo e impermeabilización de la terraza (con prueba de agua de 24 h).</span></div></li>
+      <li><div><b>Instalaciones</b><span>Circuito dedicado para el estudio con polo a tierra real, tomas en escritorio, rack, TV, vinilos y terraza (IP65), cable de red Cat6 a escritorio y TV, hidráulica y desagües del baño, y desagüe de la terraza.</span></div></li>
+      <li><div><b>Ventanería</b><span>Ventanal piso-techo con reja, puerta-ventana acústica y vidrio fijo del hall.</span></div></li>
+      <li><div><b>Muros</b><span>Trasdosados acústicos, enchape de ladrillo, acabado tipo concreto y muro grafito del estudio.</span></div></li>
+      <li><div><b>Baño</b><span>Impermeabilizar la ducha, baldosa hidráulica, subway, porcelanato madera, aparatos y extractor.</span></div></li>
+      <li><div><b>Pisos</b><span>Manto acústico + SPC en el interior y deck en la terraza.</span></div></li>
+      <li><div><b>Carpintería y metal</b><span>Murphy + closets, escritorio en L, mueble de TV, cubos de vinilos, divisor corredizo, pérgola y puerta de la escalera.</span></div></li>
+      <li><div><b>Luz y acústica</b><span>Rieles, tiras LED y neón. Paneles, trampas de graves, nube y listones.</span></div></li>
+      <li><div><b>Montaje</b><span>Equipos, guitarras, tapetes, plantas y vinilos.</span></div></li>
+    </ol>
+
+    <h3 style="margin:34px 0 12px;font-size:22px">Medidas que necesito para afinar</h3>
+    <div class="card">
+      <ul class="check">
+        <li>Altura del piso al punto más bajo y al más alto de la cubierta (sin cielo raso).</li>
+        <li>Tipo de cubierta actual: teja, losa o zinc, y hacia dónde cae el agua.</li>
+        <li>Si el muro entre habitación y estudio tiene columna o viga a la vista.</li>
+        <li>Ancho y alto actuales de cada ventana.</li>
+        <li>Dónde llegan hoy las tuberías del baño y la bajante.</li>
+        <li>Altura de los muros vecinos alrededor del patio.</li>
+        <li>Medidas exactas del rack y de los soportes de los JBL.</li>
+        <li>Cuántos vinilos y CDs tienes hoy (para dimensionar los cubos).</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="card">
+    <b>Supuestos de este modelo.</b> Las medidas en planta salen de tus planos. La altura libre de 3,20 m sin cielo raso es una estimación, y si es menor, el altillo se ajusta. Los muebles tienen medidas estándar. El 3D es una representación de diseño, no un render fotorrealista ni un plano de construcción.
+  </div>
+</footer>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+/* ===================== DATA (shared by 3D + plan) ===================== */
+const ITEMS = [
+  [1,'Cama Murphy queen + closets','Muro norte · closets de 85 cm a cada lado · sofá integrado opcional', [172,30,190]],
+  [2,'Centro de entretenimiento','TV 65", PS5 y retro · enchape de ladrillo + LED', [140,288,190]],
+  [3,'Ventanal piso a techo','190 cm · perfil negro · reja tipo balcón', [-12,155,200]],
+  [4,'Escritorio principal','240 × 80 · 2 pantallas · JBL 8"', [492,40,150]],
+  [5,'Rack de sonido 19"','12U con ruedas, bajo el escritorio', [420,40,45]],
+  [6,'Live act','APC40 MK2 · MAX49 · TD-3 · Yamaha PSS', [588,150,115]],
+  [7,'Muro de guitarras','2 guitarras + bajo sobre listones acústicos', [612,165,240]],
+  [8,'Estación de vinilos','2 tornamesas + mixer · cubos · repisas CD', [597,320,130]],
+  [9,'Tapete persa','160 × 240 bajo la silla', [470,240,8]],
+  [10,'Puerta-ventana acústica','Corrediza, vidrio laminado acústico', [490,401,215]],
+  [11,'Terraza + pérgola de vidrio','Deck WPC · barra · jardín vertical', [480,480,265]],
+  [12,'Baño renovado','Baldosa hidráulica · ducha walk-in', [130,360,150]],
+  [13,'Bodega en altillo','Sobre el baño · escalera removible', [130,360,262]],
+  [14,'Viga de acero vista','Reemplaza el muro divisorio', [360,140,300]],
+  [15,'Puerta acústica escalera','Acero + vidrio laminado', [313,419,200]],
+  [16,'Divisor corredizo','Vidrio esmerilado, 3 hojas', [360,230,150]],
+];
+
+/* ===================== 2D PLANS ===================== */
+function planSVG(mode){
+  let s='';
+  const R=(x0,y0,x1,y1,cls,ex='')=>{s+=`<rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" class="${cls}" ${ex}/>`;};
+  const T=(x,y,t,cls='lab',ex='')=>{s+=`<text x="${x}" y="${y}" class="${cls}" ${ex}>${t}</text>`;};
+  const L=(x0,y0,x1,y1,cls)=>{s+=`<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" class="${cls}"/>`;};
+  const N=(x,y,n)=>{s+=`<g class="pn"><circle cx="${x}" cy="${y}" r="12"/><text x="${x}" y="${y+4}">${n}</text></g>`;};
+  // zones
+  if(mode==='actual'){
+    R(0,0,360,290,'z1');R(360,0,620,395,'z2');R(0,302,255,413,'z3');R(360,407,620,545,'zh');
+  } else {
+    R(0,0,620,290,'z1');R(360,0,620,395,'z2');R(267,290,360,425,'z1');R(0,302,255,413,'z3');R(360,407,620,545,'z4');
+  }
+  // stairs
+  for(let x=3;x<=267;x+=22) L(x,425,x,545,'st');
+  L(267,425,360,545,'st');L(267,545,360,425,'st');
+  T(140,492,'Escalera','lab sm');
+  // existing walls
+  const W=(a,b,c,d)=>R(a,b,c,d,'w');
+  W(-15,-15,635,0); W(620,0,635,407); W(-15,545,372,560); W(-15,0,0,545);
+  W(0,290,267,302); W(0,413,267,425); W(360,395,620,407); W(360,407,372,545);
+  if(mode==='actual'){
+    W(355,0,365,290); W(290,286,365,296); W(355,296,365,350); W(255,302,267,352);
+    R(-15,42,0,230,'win'); R(380,395,600,407,'win'); R(360,410,372,530,'win'); R(-15,330,0,385,'win');
+    T(180,150,'Habitación','lab'); T(490,200,'Estudio','lab'); T(128,365,'Baño','lab sm'); T(490,480,'Techo sobre el patio','lab sm');
+    T(312,368,'Hall','lab sm');
+    s+=`<path d="M372 420 l40 0 M372 440 l80 0 M372 460 l120 0 M372 480 l160 0 M372 500 l200 0 M372 520 l240 0" class="hatch"/>`;
+  } else {
+    W(255,302,267,330); W(255,400,267,413);
+    // removed walls
+    R(355,0,365,290,'rm'); R(290,286,365,296,'rm'); R(355,296,365,350,'rm');
+    // windows
+    R(-15,60,0,250,'win'); R(375,395,605,407,'win'); R(360,410,372,535,'win'); R(-15,320,0,390,'win');
+    // beam
+    R(354,0,366,395,'beam');
+    // balcony rail
+    L(-24,60,-24,250,'rail');
+    // divider panels
+    R(357,40,363,290,'div');
+    // furniture
+    const F=(a,b,c,d)=>R(a,b,c,d,'f');
+    F(0,0,85,55);F(85,0,260,55);F(260,0,345,55); // closets + murphy
+    R(94,55,251,250,'fbed'); // bed footprint open
+    F(40,260,245,290); // TV console
+    F(380,0,620,80); F(560,80,620,240); // desk + return
+    F(392,12,448,62); // rack
+    F(575,250,620,390); // vinyl
+    R(395,95,555,335,'rug');
+    F(0,302,90,413); F(100,365,170,413); F(185,345,225,413); // bath
+    F(590,420,618,520); // bar
+    F(380,520,480,540); // planter
+    F(267,413,360,421); // stair door
+    s+=`<circle cx="490" cy="150" r="22" class="f"/>`;
+    for(const [n,,, p] of ITEMS){ N(p[0],p[1],n); }
+  }
+  // dims
+  T(180,-30,'360','dim');T(490,-30,'260','dim');T(-40,150,'290','dim','transform="rotate(-90 -40 150)"');
+  T(660,200,'395','dim','transform="rotate(90 660 200)"');T(660,476,'150','dim','transform="rotate(90 660 476)"');
+  T(-40,360,'135','dim','transform="rotate(-90 -40 360)"');
+  return `<svg viewBox="-70 -60 760 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plano ${mode}">
+  <style>
+    .w{fill:#d6d4cf}.win{fill:#4fb3d9}.rm{fill:none;stroke:#ff5a36;stroke-width:2.5;stroke-dasharray:7 5}
+    .beam{fill:#3a3a40;opacity:.85}.div{fill:none;stroke:#9aa7b0;stroke-width:2;stroke-dasharray:3 3}
+    .z1{fill:rgba(233,163,90,.08)}.z2{fill:rgba(155,107,255,.10)}.z3{fill:rgba(232,226,214,.07)}.z4{fill:rgba(127,174,106,.14)}.zh{fill:rgba(255,255,255,.03)}
+    .f{fill:rgba(255,255,255,.07);stroke:#8a8a93;stroke-width:1.4}
+    .fbed{fill:rgba(233,163,90,.06);stroke:#e9a35a;stroke-width:1.4;stroke-dasharray:6 4}
+    .rug{fill:rgba(140,40,40,.25);stroke:#a0473a;stroke-width:1.2}
+    .st{stroke:#55555c;stroke-width:1.2}.rail{stroke:#ddd;stroke-width:2.5}
+    .hatch{stroke:#5a5a62;stroke-width:1.2}
+    .lab{fill:#cfcfd4;font:600 18px Inter,sans-serif;text-anchor:middle}.lab.sm{font-size:14px;fill:#9a9aa3}
+    .dim{fill:#8d8d96;font:500 14px Inter,sans-serif;text-anchor:middle}
+    .pn circle{fill:#ff5a36;stroke:#fff;stroke-width:1.5}.pn text{fill:#fff;font:700 12px Inter,sans-serif;text-anchor:middle}
+  </style>${s}</svg>`;
+}
+const planEl=document.getElementById('plan');
+function showPlan(m){planEl.innerHTML=planSVG(m);document.querySelectorAll('#planSeg button').forEach(b=>b.classList.toggle('on',b.dataset.p===m));}
+document.querySelectorAll('#planSeg button').forEach(b=>b.onclick=()=>showPlan(b.dataset.p));
+showPlan('propuesta');
+document.getElementById('legend').innerHTML=ITEMS.map(([n,t,d])=>`<li><span class="n">${n}</span><div><b>${t}</b><small>${d}</small></div></li>`).join('');
+
+/* ===================== 3D ===================== */
+const H=320;                // altura libre supuesta (cm)
+const CUT=120;              // altura de corte
+const host=document.getElementById('c3d');
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.0;
+host.appendChild(renderer.domElement);
+const labelR=new CSS2DRenderer();
+Object.assign(labelR.domElement.style,{position:'absolute',top:'0',left:'0',pointerEvents:'none'});
+host.appendChild(labelR.domElement);
+
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(42,1,0.05,200);
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true; controls.dampingFactor=.08;
+const pmrem=new THREE.PMREMGenerator(renderer);
+scene.environment=pmrem.fromScene(new RoomEnvironment(),0.04).texture;
+
+let seed=11; const rnd=(a=0,b=1)=>{seed=(seed*16807)%2147483647;return a+(seed/2147483647)*(b-a);};
+const OX=310,OY=272.5;
+const P=(x,y,h=0)=>new THREE.Vector3((x-OX)/100,h/100,(y-OY)/100);
+const root=new THREE.Group(); scene.add(root);
+const G={upper:new THREE.Group(),ceiling:new THREE.Group(),ctx:new THREE.Group(),labels:new THREE.Group()};
+Object.values(G).forEach(g=>root.add(g));
+
+function box(x0,x1,y0,y1,h0,h1,mat,parent=root,shadow=true){
+  const m=new THREE.Mesh(new THREE.BoxGeometry((x1-x0)/100,(h1-h0)/100,(y1-y0)/100),mat);
+  m.position.copy(P((x0+x1)/2,(y0+y1)/2,(h0+h1)/2));
+  m.castShadow=shadow; m.receiveShadow=true; parent.add(m); return m;
+}
+function wall(x0,x1,y0,y1,h0,h1,mat,shadow=true){
+  if(h0<CUT&&h1>CUT){box(x0,x1,y0,y1,h0,CUT,mat,root,shadow);box(x0,x1,y0,y1,CUT,h1,mat,G.upper,shadow);}
+  else box(x0,x1,y0,y1,h0,h1,mat,h0>=CUT?G.upper:root,shadow);
+}
+function plane(x0,x1,y0,y1,h,mat,parent=root){
+  const g=new THREE.PlaneGeometry((x1-x0)/100,(y1-y0)/100); g.rotateX(-Math.PI/2);
+  const m=new THREE.Mesh(g,mat); m.position.copy(P((x0+x1)/2,(y0+y1)/2,h)); m.receiveShadow=true; parent.add(m); return m;
+}
+function lbox(w,h,d,x,y,z,mat,parent){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;parent.add(m);return m;}
+
+/* ---------- canvas textures ---------- */
+const cv=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c;};
+function tex(c,rx=1,ry=1){const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);t.anisotropy=8;return t;}
+function rep(mat,rx,ry){const m=mat.clone();m.map=mat.map.clone();m.map.repeat.set(rx,ry);m.map.needsUpdate=true;return m;}
+
+function concreteC(base){const c=cv(512,512),g=c.getContext('2d');g.fillStyle=base;g.fillRect(0,0,512,512);
+  for(let i=0;i<900;i++){g.fillStyle=`rgba(${rnd()>.5?'255,255,255':'0,0,0'},${rnd(.012,.05)})`;const r=rnd(6,60);g.beginPath();g.arc(rnd(0,512),rnd(0,512),r,0,7);g.fill();}
+  for(let i=0;i<5000;i++){g.fillStyle=`rgba(0,0,0,${rnd(.03,.1)})`;g.fillRect(rnd(0,512),rnd(0,512),1.3,1.3);}
+  return c;}
+function brickC(){const c=cv(512,512),g=c.getContext('2d');g.fillStyle='#c4b6a6';g.fillRect(0,0,512,512);
+  const rows=12,bh=512/rows,bw=128;
+  for(let r=0;r<rows;r++){const off=(r%2)?bw/2:0;for(let i=-1;i<=4;i++){const x=i*bw+off,y=r*bh;
+    g.fillStyle=`hsl(${rnd(8,20)},${rnd(38,56)}%,${rnd(27,40)}%)`;g.fillRect(x+3,y+3,bw-6,bh-6);
+    for(let k=0;k<50;k++){g.fillStyle=`rgba(${rnd()>.5?'255,225,200':'30,15,8'},${rnd(.05,.16)})`;g.fillRect(x+rnd(3,bw-8),y+rnd(3,bh-6),rnd(2,9),rnd(1,4));}}}
+  return c;}
+function woodC(base,rows=8,size=1024){const c=cv(size,size),g=c.getContext('2d');const ph=size/rows;
+  for(let r=0;r<rows;r++){let x=-rnd(0,400);while(x<size){const len=rnd(320,620),k=rnd(.82,1.14);
+    g.fillStyle=`rgb(${base[0]*k|0},${base[1]*k|0},${base[2]*k|0})`;g.fillRect(x,r*ph,len,ph);
+    for(let j=0;j<22;j++){g.strokeStyle=`rgba(0,0,0,${rnd(.04,.13)})`;g.lineWidth=rnd(.5,2);g.beginPath();const yy=r*ph+rnd(2,ph-2);g.moveTo(x,yy);g.bezierCurveTo(x+len*.3,yy+rnd(-5,5),x+len*.6,yy+rnd(-5,5),x+len,yy+rnd(-3,3));g.stroke();}
+    g.fillStyle='rgba(0,0,0,.5)';g.fillRect(x,r*ph,2,ph);x+=len;}
+    g.fillStyle='rgba(0,0,0,.55)';g.fillRect(0,r*ph,size,2);}
+  return c;}
+function slatC(base=[78,54,38]){const c=cv(512,512),g=c.getContext('2d');g.fillStyle='#121212';g.fillRect(0,0,512,512);
+  for(let x=0;x<512;x+=32){const k=rnd(.85,1.12);g.fillStyle=`rgb(${base[0]*k|0},${base[1]*k|0},${base[2]*k|0})`;g.fillRect(x+5,0,22,512);
+    for(let j=0;j<8;j++){g.strokeStyle=`rgba(0,0,0,${rnd(.05,.15)})`;g.beginPath();const xx=x+5+rnd(1,21);g.moveTo(xx,0);g.lineTo(xx+rnd(-2,2),512);g.stroke();}}
+  return c;}
+function hydraulicC(){const c=cv(512,512),g=c.getContext('2d');const ink='#262a31',paper='#ebe7de';g.fillStyle=paper;g.fillRect(0,0,512,512);
+  for(let i=0;i<4;i++)for(let j=0;j<4;j++){const x=i*128,y=j*128;g.save();g.beginPath();g.rect(x,y,128,128);g.clip();g.translate(x+64,y+64);g.fillStyle=ink;
+    for(const [cx,cy] of [[-64,-64],[64,-64],[-64,64],[64,64]]){g.beginPath();g.arc(cx,cy,30,0,7);g.fill();}
+    for(let a=0;a<4;a++){g.save();g.rotate(a*Math.PI/2+Math.PI/4);g.beginPath();g.ellipse(0,-30,13,25,0,0,7);g.fill();g.restore();}
+    g.fillStyle=paper;for(const [cx,cy] of [[-64,-64],[64,-64],[-64,64],[64,64]]){g.beginPath();g.arc(cx,cy,14,0,7);g.fill();}
+    g.beginPath();g.arc(0,0,9,0,7);g.fill();
+    g.strokeStyle=ink;g.lineWidth=3;g.beginPath();g.arc(0,0,50,0,7);g.stroke();
+    g.restore();g.strokeStyle='rgba(0,0,0,.18)';g.strokeRect(x,y,128,128);}
+  return c;}
+function subwayC(){const c=cv(512,512),g=c.getContext('2d');g.fillStyle='#bdbab3';g.fillRect(0,0,512,512);
+  const rows=16,bh=32,bw=64;for(let r=0;r<rows;r++){const off=(r%2)?32:0;for(let i=-1;i<=8;i++){const l=rnd(91,96);g.fillStyle=`hsl(40,12%,${l}%)`;g.fillRect(i*bw+off+1.5,r*bh+1.5,bw-3,bh-3);}}return c;}
+function rugC(){const c=cv(512,768),g=c.getContext('2d');
+  const navy='#1b2440',gold='#c6a467',red='#7a1d1d',cream='#e8dcc2';
+  g.fillStyle=cream;g.fillRect(0,0,512,768);g.fillStyle=navy;g.fillRect(6,16,500,736);g.fillStyle=gold;g.fillRect(20,30,472,708);g.fillStyle=navy;g.fillRect(30,40,452,688);
+  const dia=(x,y,rx,ry,col)=>{g.fillStyle=col;g.beginPath();g.moveTo(x,y-ry);g.lineTo(x+rx,y);g.lineTo(x,y+ry);g.lineTo(x-rx,y);g.closePath();g.fill();};
+  for(let x=46;x<470;x+=24){dia(x,52,8,8,'#b23a2c');dia(x,716,8,8,'#b23a2c');}
+  for(let y=70;y<700;y+=24){dia(42,y,8,8,'#b23a2c');dia(470,y,8,8,'#b23a2c');}
+  g.fillStyle=red;g.fillRect(58,68,396,632);
+  for(let x=72;x<446;x+=26)for(let y=82;y<690;y+=26){dia(x+13,y+13,5,5,((x+y)/26)%2>1?'rgba(198,164,103,.55)':'rgba(27,36,64,.6)');}
+  g.save();g.translate(256,384);
+  dia(0,0,150,250,navy);dia(0,0,124,212,gold);dia(0,0,104,180,red);dia(0,0,74,130,navy);dia(0,0,48,86,gold);dia(0,0,26,46,red);
+  for(let a=0;a<8;a++){g.save();g.rotate(a*Math.PI/4);g.fillStyle=cream;g.beginPath();g.ellipse(0,-60,6,16,0,0,7);g.fill();g.restore();}
+  g.restore();
+  for(const [x,y,sx,sy] of [[58,68,1,1],[454,68,-1,1],[58,700,1,-1],[454,700,-1,-1]]){g.fillStyle=navy;g.beginPath();g.moveTo(x,y);g.lineTo(x+110*sx,y);g.lineTo(x,y+150*sy);g.closePath();g.fill();}
+  g.strokeStyle=cream;for(let x=8;x<505;x+=4){g.beginPath();g.moveTo(x,0);g.lineTo(x,16);g.moveTo(x,752);g.lineTo(x,768);g.stroke();}
+  for(let i=0;i<3500;i++){g.fillStyle=`rgba(${rnd()>.5?'255,240,220':'0,0,0'},${rnd(.03,.09)})`;g.fillRect(rnd(0,512),rnd(16,752),2,2);}
+  return c;}
+function spinesC(w=256,h=128){const c=cv(w,h),g=c.getContext('2d');g.fillStyle='#0d0d0d';g.fillRect(0,0,w,h);let x=0;
+  const pal=['#d4d0c8','#1d1d1f','#b23a2c','#e9a35a','#3b5b8a','#6a8f5e','#c9b28a','#7b3cff','#2e2e33','#f2efe8'];
+  while(x<w){const ww=rnd(1.5,5);g.fillStyle=pal[(rnd(0,pal.length))|0];g.fillRect(x,rnd(0,10),ww-.6,h);x+=ww;}return c;}
+function keysC(n=29){const c=cv(1024,160),g=c.getContext('2d');g.fillStyle='#f4f4f2';g.fillRect(0,0,1024,160);const kw=1024/n;
+  g.strokeStyle='#777';for(let i=0;i<=n;i++){g.beginPath();g.moveTo(i*kw,0);g.lineTo(i*kw,160);g.stroke();}
+  g.fillStyle='#111';for(let i=0;i<n-1;i++){const m=i%7;if(m===2||m===6)continue;g.fillRect(i*kw+kw*.68,0,kw*.64,96);}return c;}
+function padsC(){const c=cv(256,160),g=c.getContext('2d');g.fillStyle='#111';g.fillRect(0,0,256,160);
+  const pal=['#ff5a36','#e9a35a','#36d17a','#4fb3d9','#9b6bff','#ff3d7f','#f5e663'];
+  for(let i=0;i<8;i++)for(let j=0;j<5;j++){g.fillStyle=rnd()>.25?pal[(rnd(0,pal.length))|0]:'#333';g.fillRect(8+i*26,10+j*26,20,20);}
+  for(let j=0;j<5;j++){g.fillStyle='#36d17a';g.fillRect(222,14+j*26,22,12);}
+  for(let i=0;i<9;i++){g.fillStyle='#ddd';g.beginPath();g.arc(16+i*26,148,6,0,7);g.fill();}return c;}
+function screenC(kind){const c=cv(512,300),g=c.getContext('2d');g.fillStyle='#1c1c1e';g.fillRect(0,0,512,300);
+  if(kind==='daw'){g.fillStyle='#2b2b2e';g.fillRect(0,0,512,22);
+    const pal=['#ff5a36','#e9a35a','#36d17a','#4fb3d9','#9b6bff','#ff3d7f'];
+    for(let col=0;col<8;col++){g.fillStyle='#262629';g.fillRect(8+col*62,30,56,200);for(let r=0;r<8;r++){if(rnd()>.35){g.fillStyle=pal[(col+r)%pal.length];g.fillRect(10+col*62,34+r*24,52,18);}}}
+    g.fillStyle='#2b2b2e';g.fillRect(0,238,512,62);for(let i=0;i<8;i++){g.fillStyle='#4fb3d9';g.fillRect(16+i*62,250+rnd(0,30),8,40);} }
+  else if(kind==='wave'){g.strokeStyle='#e9a35a';g.lineWidth=1.4;for(let t=0;t<3;t++){g.beginPath();for(let x=0;x<512;x++){const y=60+t*90+Math.sin(x*.07+t)*rnd(4,30);x?g.lineTo(x,y):g.moveTo(x,y);}g.stroke();}}
+  else {const gr=g.createLinearGradient(0,0,0,300);gr.addColorStop(0,'#1a2a6c');gr.addColorStop(.55,'#b21f1f');gr.addColorStop(1,'#fdbb2d');g.fillStyle=gr;g.fillRect(0,0,512,300);
+    g.fillStyle='rgba(0,0,0,.6)';g.beginPath();g.moveTo(0,300);for(let x=0;x<=512;x+=32)g.lineTo(x,220-Math.abs(Math.sin(x*.02))*60);g.lineTo(512,300);g.fill();}
+  return c;}
+function rackC(){const c=cv(256,256),g=c.getContext('2d');g.fillStyle='#141414';g.fillRect(0,0,256,256);
+  for(let u=0;u<12;u++){const y=u*21;g.fillStyle=u%3?'#1f1f22':'#2a2a2e';g.fillRect(14,y+2,228,18);g.fillStyle='#555';g.fillRect(4,y+6,6,6);g.fillRect(246,y+6,6,6);
+    for(let k=0;k<4;k++){g.fillStyle=rnd()>.5?'#36d17a':'#ff5a36';g.fillRect(30+k*10,y+9,4,4);} g.fillStyle='#888';g.beginPath();g.arc(200,y+11,5,0,7);g.fill();}
+  return c;}
+function leavesC(){const c=cv(256,256),g=c.getContext('2d');g.fillStyle='#1d3317';g.fillRect(0,0,256,256);
+  for(let i=0;i<500;i++){g.fillStyle=`hsl(${rnd(85,130)},${rnd(35,60)}%,${rnd(18,42)}%)`;g.beginPath();g.ellipse(rnd(0,256),rnd(0,256),rnd(4,12),rnd(2,6),rnd(0,3),0,7);g.fill();}return c;}
+function acousticC(){const c=cv(256,256),g=c.getContext('2d');g.fillStyle='#19191b';g.fillRect(0,0,256,256);
+  g.fillStyle='#0b0b0c';for(let x=8;x<256;x+=16)for(let y=8;y<256;y+=16){g.beginPath();g.arc(x,y,3,0,7);g.fill();}
+  g.strokeStyle='#0a0a0a';g.lineWidth=3;g.strokeRect(1,1,254,254);return c;}
+function neonBoltC(){const c=cv(256,512),g=c.getContext('2d');g.clearRect(0,0,256,512);
+  g.shadowColor='#ff5a36';g.shadowBlur=36;g.strokeStyle='#ffd7c7';g.lineWidth=14;g.lineJoin='round';
+  g.beginPath();g.moveTo(150,30);g.lineTo(70,270);g.lineTo(140,262);g.lineTo(100,480);g.lineTo(196,210);g.lineTo(126,220);g.lineTo(186,30);g.closePath();
+  for(let i=0;i<3;i++)g.stroke();return c;}
+function neonTextC(t){const c=cv(1024,200),g=c.getContext('2d');g.font='700 120px "Space Grotesk",Inter,sans-serif';g.textAlign='center';g.textBaseline='middle';
+  g.shadowColor='#9b6bff';g.shadowBlur=30;g.fillStyle='#efe6ff';for(let i=0;i<3;i++)g.fillText(t,512,104);return c;}
+function recordC(){const c=cv(256,256),g=c.getContext('2d');const pal=['#ff5a36','#e9a35a','#4fb3d9','#9b6bff','#36d17a','#f2efe8'];
+  g.fillStyle=pal[(rnd(0,pal.length))|0];g.fillRect(0,0,256,256);g.fillStyle='#0c0c0c';g.beginPath();g.arc(150,128,112,0,7);g.fill();
+  g.strokeStyle='#222';for(let r=30;r<110;r+=6){g.beginPath();g.arc(150,128,r,0,7);g.stroke();}
+  g.fillStyle=pal[(rnd(0,pal.length))|0];g.beginPath();g.arc(150,128,30,0,7);g.fill();return c;}
+
+/* ---------- materials ---------- */
+const std=(o)=>new THREE.MeshStandardMaterial(o);
+const M={
+  concrete: std({map:tex(concreteC('#b9b5ad'),2,2),roughness:.93}),
+  graphite: std({map:tex(concreteC('#3b3b40'),2,2),roughness:.9}),
+  brick: std({map:tex(brickC()),roughness:.92}),
+  floor: std({map:tex(woodC([74,52,37])),roughness:.48}),
+  oak: std({map:tex(woodC([132,92,60],6,512)),roughness:.55}),
+  slat: std({map:tex(slatC()),roughness:.6}),
+  slatLight: std({map:tex(slatC([140,100,66])),roughness:.6}),
+  steel: std({color:0x1b1b1d,roughness:.42,metalness:.6}),
+  steelLight: std({color:0x9a9ca0,roughness:.35,metalness:.85}),
+  black: std({color:0x111112,roughness:.6}),
+  white: std({color:0xf1efea,roughness:.25}),
+  ceramic: std({color:0xf6f5f2,roughness:.12}),
+  glass: new THREE.MeshPhysicalMaterial({color:0xcfe3ec,transparent:true,opacity:.14,roughness:.04,metalness:0,depthWrite:false,side:THREE.DoubleSide}),
+  frosted: new THREE.MeshPhysicalMaterial({color:0xe7ecef,transparent:true,opacity:.55,roughness:.7,depthWrite:false,side:THREE.DoubleSide}),
+  hydraulic: std({map:tex(hydraulicC()),roughness:.35}),
+  subway: std({map:tex(subwayC()),roughness:.2}),
+  woodTile: std({map:tex(woodC([150,112,78],6,512)),roughness:.4}),
+  rug: std({map:tex(rugC()),roughness:1}),
+  linen: std({color:0xe9e6df,roughness:1}),
+  duvet: std({color:0x45474c,roughness:1}),
+  throwM: std({color:0x1f2333,roughness:1}),
+  pillow: std({color:0x6b6d72,roughness:1}),
+  leather: std({color:0x7a4527,roughness:.55}),
+  fabric: std({color:0x2c2d31,roughness:1}),
+  deck: std({map:tex(woodC([120,104,88])),roughness:.8}),
+  leaves: std({map:tex(leavesC()),roughness:.9}),
+  green: std({color:0x355e2a,roughness:.85}),
+  plant: std({color:0x2f5b2a,roughness:.7}),
+  terracotta: std({color:0x5a5a5e,roughness:.8}),
+  acoustic: std({map:tex(acousticC(),1,1),roughness:1}),
+  spines: std({map:tex(spinesC()),roughness:.8}),
+  keys: std({map:tex(keysC()),roughness:.4}),
+  base: std({color:0x2a2a2d,roughness:1}),
+  ground: std({color:0x1d1d20,roughness:1}),
+};
+const em=(c,i=0)=>std({color:0x111111,emissive:c,emissiveIntensity:i});
+const LED={warm:em(0xffb36b,.4),studio:em(0xffb36b,.4),bath:em(0xfff1dc,.6)};
+const screenMat=(k)=>std({color:0x000000,emissive:0xffffff,emissiveMap:tex(screenC(k)),emissiveIntensity:.8,roughness:.3});
+const SCR=[screenMat('daw'),screenMat('wave'),screenMat('tv')];
+const PADS=std({color:0x111111,emissive:0xffffff,emissiveMap:tex(padsC()),emissiveIntensity:.6,map:tex(padsC())});
+const RACK=std({map:tex(rackC()),roughness:.5,metalness:.3});
+const neonBolt=new THREE.MeshBasicMaterial({map:tex(neonBoltC()),transparent:true,toneMapped:false,depthWrite:false});
+const neonText=new THREE.MeshBasicMaterial({map:tex(neonTextC('DA GET UP')),transparent:true,toneMapped:false,depthWrite:false});
+
+/* ---------- context: building, ground ---------- */
+box(-15,635,-15,425,-300,-1,M.base,G.ctx,false);
+box(360,635,425,560,-300,-3,M.base,G.ctx,false);
+{const g=new THREE.Mesh(new THREE.PlaneGeometry(40,40),M.ground);g.rotation.x=-Math.PI/2;g.position.y=-3.01;g.receiveShadow=true;G.ctx.add(g);}
+
+/* ---------- floors ---------- */
+plane(0,620,0,395,0,rep(M.floor,5.2,3.3));
+plane(267,360,395,425,0,rep(M.floor,.8,.25));
+plane(0,255,302,413,.4,rep(M.hydraulic,3.2,1.4));
+plane(0,90,302,413,.6,rep(M.woodTile,1,1.2));
+plane(360,620,407,545,-2,rep(M.deck,2.2,1.2));
+
+/* ---------- exterior walls ---------- */
+const C=M.concrete;
+wall(-15,635,-15,0,0,H,rep(C,6,3));                 // norte
+wall(620,635,-15,407,0,H,rep(C,4,3));               // este estudio
+wall(-15,372,545,560,0,H,rep(C,4,3));
+box(-15,372,545,560,-300,0,M.base,G.ctx,false); box(-15,0,425,545,-300,0,M.base,G.ctx,false);               // sur escalera
+// oeste: ventanal 60-250, ventana ducha 320-390
+wall(-15,0,0,60,0,H,C); wall(-15,0,60,250,290,H,C); wall(-15,0,250,320,0,H,C);
+wall(-15,0,320,390,0,150,C); wall(-15,0,320,390,205,H,C); wall(-15,0,390,545,0,H,rep(C,2,3));
+// ventanal habitación
+wall(-8,-6,60,250,0,290,M.glass,false);
+for(const y of [60,123,187,250]) wall(-10,-4,y-3,y+3,0,290,M.steel);
+wall(-10,-4,60,250,0,4,M.steel); wall(-10,-4,60,250,286,290,M.steel); wall(-10,-4,60,250,222,226,M.steel);
+// reja balcón francés
+box(-32,-15,56,254,-6,0,M.steel);
+for(let y=62;y<=248;y+=11) wall(-26,-24,y-1,y+1,0,105,M.steel);
+wall(-28,-22,58,252,102,108,M.steel); wall(-27,-23,58,252,10,13,M.steel);
+// ventana ducha
+wall(-8,-6,320,390,150,205,M.frosted,false);
+// muro estudio-terraza con puerta-ventana
+wall(360,375,395,407,-20,H,C); wall(605,620,395,407,-20,H,C); wall(375,605,395,407,290,H,C);
+wall(375,490,398,400,0,290,M.glass,false); wall(490,605,402,404,0,290,M.glass,false);
+for(const x of [375,432,490,547,605]) wall(x-3,x+3,396,406,0,290,M.steel);
+wall(375,605,396,406,0,4,M.steel); wall(375,605,396,406,286,290,M.steel);
+// muro hall-terraza con vidrio fijo
+wall(360,372,407,410,-20,H,C); wall(360,372,535,545,-20,H,C); wall(360,372,410,535,290,H,C);
+wall(365,367,410,535,-18,290,M.glass,false);
+for(const y of [410,472,535]) wall(363,369,y-3,y+3,-18,290,M.steel);
+box(360,372,410,535,-300,-18,M.base,G.ctx);
+
+/* ---------- interior walls ---------- */
+wall(0,267,290,302,0,H,C);                    // muro TV / baño norte
+wall(0,267,413,425,0,H,C); box(0,267,413,425,-300,0,M.base,G.ctx,false);                 // baño sur / escalera
+wall(255,267,302,330,0,232,C); wall(255,267,400,413,0,232,C); wall(255,267,330,400,210,232,C); // baño este + vano puerta
+box(264,266,331,399,0,209,M.black);           // puerta baño (cerrada)
+box(263,264,336,346,98,102,M.steelLight);
+// enchape ladrillo muro TV
+wall(0,267,288,290,0,H,rep(M.brick,3,3.6));
+// muro detrás del escritorio: paneles acústicos negros
+wall(368,620,0,2,0,H,rep(M.acoustic,8,10));
+// muro este estudio: grafito
+wall(618,620,2,395,0,H,rep(M.graphite,4,3));
+
+/* ---------- beam + columns ---------- */
+box(352,368,0,407,H-34,H,M.steel);
+box(352,368,0,407,H-34,H-30,M.steelLight);
+
+/* ---------- ceiling (exposed) ---------- */
+{const m=rep(M.oak,4,4);m.side=THREE.DoubleSide;
+ const p1=new THREE.Mesh(new THREE.PlaneGeometry(6.2,4.07),m);p1.rotation.x=Math.PI/2;p1.position.copy(P(310,203.5,H));G.ceiling.add(p1);
+ const p2=new THREE.Mesh(new THREE.PlaneGeometry(3.6,1.38),m);p2.rotation.x=Math.PI/2;p2.position.copy(P(180,476,H));G.ceiling.add(p2);
+ for(let x=40;x<620;x+=80){ if(Math.abs(x-360)<30) continue; box(x-4,x+4,0,x<360?545:407,H-16,H,M.steel,G.ceiling); }
+}
+
+/* ---------- stairs ---------- */
+box(267,360,425,545,-300,-18,M.oak,root);
+for(let i=1;i<=12;i++){const x1=267-22*(i-1),x0=267-22*i;box(Math.max(x0,0),x1,425,545,-300,-18-18*i,i%2?M.oak:rep(M.oak,1,1));}
+// puerta acústica llegada escalera
+wall(267,272,415,423,-18,240,M.steel); wall(355,360,415,423,-18,240,M.steel); wall(267,360,415,423,234,240,M.steel);
+wall(272,355,418,420,-18,234,M.frosted,false);
+for(const h of [40,100,160]) wall(272,355,417,421,h,h+2,M.steel);
+wall(267,360,415,423,240,H,C);
+box(340,342,413,415,95,110,M.steelLight);
+
+/* ---------- MURPHY + CLOSETS ---------- */
+box(0,85,0,55,0,260,rep(M.slat,1.4,4));
+box(260,345,0,55,0,260,rep(M.slat,1.4,4));
+for(const x of [42,302]){box(x-1,x+1,55,56,0,260,M.black);} // juntas puertas
+for(const x of [36,48,296,308]) box(x-.6,x+.6,55,58,90,150,M.steel);   // tiradores
+box(85,92,0,55,0,260,M.oak); box(253,260,0,55,0,260,M.oak); box(85,260,0,55,205,260,M.oak);
+box(92,253,0,3,0,205,M.oak);
+box(92,253,30,54,203.5,205,LED.warm,root,false);
+box(0,345,0,55,260,262,M.black);
+// bed pivot
+const bedPivot=new THREE.Group(); bedPivot.position.copy(P(172.5,53,6)); root.add(bedPivot);
+lbox(1.63,.03,1.95,0,.015,.975,rep(M.slat,1.6,3),bedPivot);
+lbox(1.63,.17,1.95,0,.115,.975,M.oak,bedPivot);
+lbox(1.58,.18,1.9,0,.29,.97,M.linen,bedPivot);
+lbox(1.62,.05,1.32,0,.405,1.27,M.duvet,bedPivot);
+lbox(1.64,.06,.42,0,.415,1.62,M.throwM,bedPivot);
+lbox(.68,.1,.38,-.38,.43,.26,M.pillow,bedPivot); lbox(.68,.1,.38,.38,.43,.26,M.pillow,bedPivot);
+lbox(1.6,.05,.1,0,-.025,1.9,M.steel,bedPivot);
+// sofá integrado (visible con cama cerrada)
+const sofa=new THREE.Group(); root.add(sofa);
+box(97,250,55,140,8,40,M.leather,sofa); box(97,250,55,75,40,78,M.leather,sofa);
+box(97,110,55,140,40,60,M.leather,sofa); box(237,250,55,140,40,60,M.leather,sofa);
+box(99,248,57,138,0,8,M.steel,sofa);
+box(150,200,85,110,40,52,M.fabric,sofa);
+
+/* ---------- TV WALL ---------- */
+box(40,245,258,288,30,60,M.oak); box(40,245,258,288,29,30,LED.warm,root,false);
+box(68,217,285,288,92,176,M.black); box(70,215,284.6,285,94,174,SCR[2],root,false);
+box(100,185,280,288,80,87,M.black);
+box(224,234,262,288,60,99,M.white); box(225,233,261.5,262,62,97,M.black);   // PS5
+box(52,70,262,285,60,66,std({color:0x9c9ca3,roughness:.5})); box(74,92,264,284,60,65,std({color:0x6c4fb0,roughness:.5})); // retro
+box(20,60,272,288,140,142,M.oak); box(225,265,272,288,140,142,M.oak);
+box(26,36,276,284,142,160,std({color:0xc94f3a})); box(40,54,276,284,142,152,std({color:0x2c2c30}));
+box(232,244,276,284,142,158,std({color:0xe9a35a})); box(248,258,276,284,142,155,M.white);
+box(40,245,286,288,175,177,LED.warm,root,false);
+
+/* ---------- DIVIDER (sliding) ---------- */
+const divider=new THREE.Group(); root.add(divider);
+const divPanels=[];
+for(let i=0;i<3;i++){const g=new THREE.Group();divider.add(g);
+  const w=80;box(-w/2,w/2,-1,1,0,284,M.frosted,g,false);
+  box(-w/2,-w/2+3,-2,2,0,284,M.steel,g); box(w/2-3,w/2,-2,2,0,284,M.steel,g);
+  for(const h of [0,95,190,281]) box(-w/2,w/2,-2,2,h,h+3,M.steel,g);
+  box(-1,1,-2,2,0,284,M.steel,g);
+  g.rotation.y=Math.PI/2; divPanels.push(g);}
+box(357,363,0,295,284,288,M.steelLight);
+const divOpen=[[360,25+0,-1.5],[360,25+2,0],[360,25+4,1.5]];
+const divClosed=[[360,95,-1.5],[360,170,0],[360,245,1.5]];
+function placeDivider(t){divPanels.forEach((g,i)=>{const a=divOpen[i],b=divClosed[i];const y=a[1]+(b[1]-a[1])*t;g.position.copy(P(a[0]+b[2]*2,y,0));});}
+
+/* ---------- STUDIO ---------- */
+// desk L
+box(380,620,0,80,72,76,rep(M.oak,2,1)); box(560,620,80,240,72,76,rep(M.oak,1,1.5));
+for(const [x0,x1,y0,y1] of [[382,386,4,76],[536,540,4,76],[564,616,234,238],[564,568,84,236]]) box(x0,x1,y0,y1,0,72,M.steel);
+box(382,386,4,8,0,72,M.steel); box(382,386,72,76,0,72,M.steel);
+// riser
+box(596,620,90,236,94,97,M.oak); box(597,600,92,234,76,94,M.steel);
+// rack
+box(392,448,12,62,0,62,M.black); box(394,446,61.6,62,2,60,RACK,root,false);
+// tower
+box(590,612,12,62,0,48,M.black); box(592,610,61.6,62,30,46,LED.studio,root,false);
+// monitors (screens)
+function screen(xc,rot,mat){const g=new THREE.Group();g.position.copy(P(xc,30,118));g.rotation.y=rot;root.add(g);
+  lbox(.62,.37,.025,0,0,0,M.black,g);const s=new THREE.Mesh(new THREE.PlaneGeometry(.6,.35),mat);s.position.z=.0135;g.add(s);
+  lbox(.03,.4,.03,0,-.33,-.05,M.steelLight,g);}
+screen(460,.1,SCR[0]); screen(523,-.1,SCR[1]);
+box(455,530,22,32,76,78,M.steelLight);
+// JBL 8"
+function jbl(xc,rot){const g=new THREE.Group();g.position.copy(P(xc,34,100));g.rotation.y=rot;root.add(g);
+  lbox(.25,.42,.31,0,0,0,M.black,g);lbox(.27,.04,.33,0,-.23,0,std({color:0x333333,roughness:1}),g);
+  const w=new THREE.Mesh(new THREE.CircleGeometry(.095,32),std({color:0x222,roughness:.7}));w.position.set(0,-.06,.156);g.add(w);
+  const r=new THREE.Mesh(new THREE.TorusGeometry(.098,.008,8,32),M.steelLight);r.position.set(0,-.06,.157);g.add(r);
+  const t=new THREE.Mesh(new THREE.CircleGeometry(.04,24),std({color:0x080808,roughness:.3}));t.position.set(0,.12,.156);g.add(t);}
+jbl(418,.28); jbl(580,-.28);
+// keyboard, mouse, APC40
+box(446,492,52,66,76,78,M.black); box(500,508,56,66,76,78,M.black);
+box(512,554,44,70,76,81,M.black);
+{const p=new THREE.Mesh(new THREE.PlaneGeometry(.4,.24),PADS);p.rotation.x=-Math.PI/2;p.position.copy(P(533,57,81.2));root.add(p);}
+// MAX49
+box(568,596,94,170,76,85,M.black);
+{const g=new THREE.PlaneGeometry(.72,.14);g.rotateX(-Math.PI/2);g.rotateY(Math.PI/2);const k=new THREE.Mesh(g,M.keys);k.position.copy(P(578,132,85.2));root.add(k);}
+box(586,595,96,168,85,87,PADS,root,false);
+// TD-3 + PSS on riser
+box(599,617,150,182,97,103,std({color:0xc0c2c6,roughness:.35,metalness:.6}));
+box(600,612,152,180,103,103.4,std({color:0xff5a36,emissive:0xff5a36,emissiveIntensity:.2}),root,false);
+box(599,617,96,146,97,103,M.white);
+{const g=new THREE.PlaneGeometry(.48,.08);g.rotateX(-Math.PI/2);g.rotateY(Math.PI/2);const k=new THREE.Mesh(g,M.keys);k.position.copy(P(604,121,103.2));root.add(k);}
+// chair
+{const g=new THREE.Group();g.position.copy(P(492,150,0));g.rotation.y=Math.PI;root.add(g);
+ for(let i=0;i<5;i++){const a=i*Math.PI*2/5;const leg=lbox(.3,.03,.04,Math.cos(a)*.15,.06,Math.sin(a)*.15,M.steel,g);leg.rotation.y=-a;}
+ lbox(.05,.38,.05,0,.26,0,M.steelLight,g); lbox(.52,.08,.5,0,.48,0,M.fabric,g); lbox(.5,.62,.06,0,.85,.24,M.fabric,g); lbox(.06,.2,.3,-.27,.6,.02,M.black,g); lbox(.06,.2,.3,.27,.6,.02,M.black,g);}
+// slats + guitars wall
+box(612,618,85,245,100,275,rep(M.slatLight,1.2,1.2));
+function guitar(yc,body,neckLen,kind){
+  const s=new THREE.Shape();s.moveTo(0,-.25);s.bezierCurveTo(.21,-.25,.21,-.02,.115,0);s.bezierCurveTo(.165,.06,.15,.2,0,.2);s.bezierCurveTo(-.15,.2,-.165,.06,-.115,0);s.bezierCurveTo(-.21,-.02,-.21,-.25,0,-.25);
+  const g=new THREE.Group();g.position.copy(P(604,yc,150));g.rotation.y=-Math.PI/2;root.add(g);
+  const geo=new THREE.ExtrudeGeometry(s,{depth:kind==='ac'?.09:.045,bevelEnabled:true,bevelSize:.006,bevelThickness:.006,bevelSegments:2});
+  const b=new THREE.Mesh(geo,std({color:body,roughness:.28,metalness:.05}));b.castShadow=true;g.add(b);
+  const d=kind==='ac'?.096:.05;
+  if(kind==='ac'){const h=new THREE.Mesh(new THREE.CircleGeometry(.05,24),M.black);h.position.set(0,.06,d);g.add(h);}
+  else{lbox(.16,.05,.004,0,-.06,d,M.black,g);lbox(.08,.03,.006,0,.05,d,M.steelLight,g);lbox(.08,.03,.006,0,-.15,d,M.steelLight,g);}
+  lbox(.05,neckLen,.025,0,.2+neckLen/2,d-.02,M.oak,g);lbox(.08,.17,.02,0,.2+neckLen+.085,d-.02,M.black,g);
+  lbox(.04,.03,.06,0,.2+neckLen+.05,-.02,M.steel,g);}
+guitar(115,0xb4581f,.45,'ac'); guitar(165,0x111111,.44,'el'); guitar(215,0xd9cfbd,.6,'bass');
+// vinyl cubes + turntables
+box(575,620,250,390,0,3,M.black); box(575,620,250,390,85,88,M.black); box(575,620,250,390,43,45,M.black);
+for(const y of [250,285,320,355,388]) box(575,620,y,y+2,0,88,M.black);
+for(const y0 of [252,287,322,357]) for(const h0 of [3,45]){
+  const m=new THREE.Mesh(new THREE.BoxGeometry(.38,.36,.31),[M.black,rep(M.spines,1,1),M.black,M.black,M.black,M.black]);
+  m.material[1]=std({map:tex(spinesC()),roughness:.8});
+  m.position.copy(P(599,y0+16.5,h0+19));m.rotation.y=Math.PI/2;m.rotation.y=0;root.add(m);}
+function turntable(yc){box(579,616,yc-22,yc+22,88,99,M.black);box(580,615,yc-21,yc+21,99,99.5,M.steelLight);
+  const p=new THREE.Mesh(new THREE.CylinderGeometry(.15,.15,.012,40),std({color:0x0b0b0b,roughness:.3}));p.position.copy(P(598,yc-3,100.2));root.add(p);
+  const l=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,.013,24),std({color:0xff5a36,roughness:.5}));l.position.copy(P(598,yc-3,100.3));root.add(l);
+  box(588,590,yc+12,yc+20,100,104,M.steelLight); box(589,600,yc+16,yc+17,104,105,M.steelLight);}
+turntable(275); turntable(363);
+box(582,614,302,336,88,98,M.black);
+for(let i=0;i<4;i++)for(let j=0;j<3;j++){const k=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,.02,12),M.steelLight);k.position.copy(P(588+j*9,308+i*7,99));root.add(k);}
+// CD shelves
+for(const h of [140,182]){box(598,618,255,390,h,h+2,M.oak);
+  const m=new THREE.Mesh(new THREE.BoxGeometry(.14,.14,1.3),[M.black,std({map:tex(spinesC(512,64)),roughness:.7}),M.black,M.black,M.black,M.black]);
+  m.position.copy(P(610,322,h+9));root.add(m);}
+// vinyl display on back wall + neon
+const recs=[];for(let i=0;i<6;i++){const m=std({map:tex(recordC()),roughness:.5});recs.push(m);}
+[[392,160],[392,205],[392,250],[592,160],[592,205],[592,250]].forEach(([x,h],i)=>{box(x-15,x+15,2,4,h-15,h+15,recs[i]);box(x-16,x+16,2,3,h-16,h+16,M.black);});
+{const p=new THREE.Mesh(new THREE.PlaneGeometry(.38,.76),neonBolt);p.position.copy(P(470,3,190));root.add(p);
+ const t=new THREE.Mesh(new THREE.PlaneGeometry(.9,.18),neonText);t.position.copy(P(536,3,212));root.add(t);}
+// bass traps + cloud
+box(588,618,2,32,80,H-20,M.fabric); box(588,618,363,393,200,H-20,M.fabric);
+box(422,562,70,210,268,276,M.fabric,G.upper);
+for(const [x,y] of [[430,78],[554,78],[430,202],[554,202]]) box(x-.4,x+.4,y-.4,y+.4,276,H,M.steelLight,root,false);
+// rugs
+{const r=new THREE.Mesh(new THREE.PlaneGeometry(1.6,2.4),M.rug);r.rotation.x=-Math.PI/2;r.position.copy(P(475,215,.8));r.receiveShadow=true;root.add(r);
+ const r2=new THREE.Mesh(new THREE.PlaneGeometry(.7,1.05),M.rug);r2.rotation.x=-Math.PI/2;r2.position.copy(P(313,355,.8));r2.receiveShadow=true;root.add(r2);}
+
+/* ---------- plants ---------- */
+function plantAt(x,y,s=1){const g=new THREE.Group();g.position.copy(P(x,y,0));g.scale.setScalar(s);root.add(g);
+  const pot=new THREE.Mesh(new THREE.CylinderGeometry(.16,.13,.4,24),M.terracotta);pot.position.y=.2;pot.castShadow=true;g.add(pot);
+  for(let i=0;i<9;i++){const l=new THREE.Mesh(new THREE.SphereGeometry(.12,10,8),M.plant);l.scale.set(.45,1.4,.15);const a=rnd(0,6.28),r=rnd(.02,.14);
+    l.position.set(Math.cos(a)*r,.55+rnd(0,.55),Math.sin(a)*r);l.rotation.set(rnd(-.6,.6),a,rnd(-.6,.6));l.castShadow=true;g.add(l);}}
+plantAt(25,268,1.1); plantAt(395,375,.9);
+
+/* ---------- BATHROOM ---------- */
+wall(0,1,302,413,0,222,rep(M.woodTile,1,2));
+wall(0,90,302,303,0,222,M.woodTile); wall(0,90,412,413,0,222,M.woodTile);
+wall(90,255,302,303,0,222,rep(M.subway,3.2,4.4)); wall(90,255,412,413,0,222,rep(M.subway,3.2,4.4));
+box(1,3,330,390,110,140,LED.bath,root,false);
+wall(89,90.5,302,372,0,200,M.glass,false); wall(88,91,302,372,198,201,M.steel);
+{const d=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.015,32),M.steel);d.position.copy(P(45,357,205));root.add(d);
+ box(44,46,302,357,206,208,M.steel);}
+box(100,170,365,412,45,85,M.oak); box(98,172,363,412,85,88,M.white);
+{const s=new THREE.Mesh(new THREE.CylinderGeometry(.2,.16,.12,32),M.ceramic);s.scale.z=.7;s.position.copy(P(135,385,94));root.add(s);}
+box(134,136,402,410,88,110,M.steel); box(134,136,392,410,108,110,M.steel);
+{const m=new THREE.Mesh(new THREE.TorusGeometry(.3,.015,12,48),M.steel);m.position.copy(P(135,411,162));root.add(m);
+ const g=new THREE.Mesh(new THREE.CircleGeometry(.3,48),std({color:0xbfc9cf,roughness:.04,metalness:1}));g.position.copy(P(135,411.8,162));g.rotation.y=Math.PI;root.add(g);}
+box(176,182,408,412,170,190,LED.bath,root,false);
+box(185,225,395,412,40,82,M.ceramic);
+{const t=new THREE.Mesh(new THREE.CylinderGeometry(.18,.15,.4,28),M.ceramic);t.scale.z=1.25;t.position.copy(P(205,372,20));t.castShadow=true;root.add(t);
+ const s=new THREE.Mesh(new THREE.CylinderGeometry(.19,.19,.03,28),M.ceramic);s.scale.z=1.25;s.position.copy(P(205,372,41));root.add(s);}
+// loft / bodega
+box(0,267,290,425,222,232,M.white,G.upper);
+box(110,150,350,360,221,221.6,LED.bath,root,false);
+const binM=[std({color:0x1d1d20,roughness:.7}),std({color:0x8a6a48,roughness:.8}),std({color:0x2c2c30,roughness:.7})];
+for(let i=0;i<5;i++)for(let j=0;j<2;j++)for(let k=0;k<2;k++)box(10+i*48,52+i*48,306+j*54,350+j*54,232+k*34,264+k*34,binM[(i+j+k)%3],G.upper);
+for(let y=304;y<=412;y+=12) box(263,265,y-.8,y+.8,232,300,M.steel,G.upper);
+box(262,266,302,413,298,302,M.steel,G.upper);
+// ladder (removable)
+{const g=new THREE.Group();g.position.copy(P(300,380,0));g.rotation.z=0;root.add(g);
+ const a=Math.atan2(.33,2.32);
+ for(const dz of [-.2,.2]){const r=lbox(.04,2.36,.03,0,1.18,dz,M.steel,g);}
+ for(let i=1;i<8;i++) lbox(.03,.03,.4,0,i*.29,0,M.steel,g);
+ g.rotation.z=a; }
+
+/* ---------- TERRACE ---------- */
+box(620,640,395,565,0,330,rep(M.brick,2,4),G.upper); box(620,640,395,565,-300,0,M.base,G.ctx,false);
+box(617,620,425,525,95,230,rep(M.leaves,1,1.3));
+// pergola
+for(const [x,y] of [[366,537],[612,537]]) box(x-4,x+4,y-4,y+4,0,258,M.steel);
+box(362,618,533,541,248,258,M.steel); box(362,370,407,541,248,258,M.steel); box(610,618,407,541,248,258,M.steel);
+box(362,618,407,412,248,258,M.steel);
+for(const x of [420,470,520,570]) box(x-3,x+3,407,541,250,258,M.steel);
+wall(362,618,407,541,259,261,M.glass,false);
+// railing south
+box(360,620,541,545,105,110,M.steel); box(360,620,541,545,8,11,M.steel);
+for(let x=366;x<620;x+=11) box(x-.8,x+.8,542,544,0,105,M.steel);
+// bar + stools
+box(590,618,420,520,100,104,M.oak); box(600,604,425,515,0,100,M.steel);
+for(const y of [445,495]){const s=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.05,24),M.leather);s.position.copy(P(568,y,75));s.castShadow=true;root.add(s);
+  const p=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.73,8),M.steel);p.position.copy(P(568,y,37));root.add(p);
+  const b=new THREE.Mesh(new THREE.CylinderGeometry(.18,.18,.02,24),M.steel);b.position.copy(P(568,y,1));root.add(b);}
+// planter
+box(380,480,518,540,0,42,M.steel); for(let i=0;i<7;i++){const l=new THREE.Mesh(new THREE.SphereGeometry(.12,10,8),M.green);l.scale.set(1,1.2,.8);l.position.copy(P(390+i*14,529,50+rnd(0,15)));l.castShadow=true;root.add(l);}
+plantAt(380,430,.9);
+// string lights
+const bulbs=std({color:0x222,emissive:0xffc77d,emissiveIntensity:.2});
+for(let i=0;i<=12;i++){const t=i/12;const x=368+t*244;const sag=Math.sin(t*Math.PI)*16;
+  const b=new THREE.Mesh(new THREE.SphereGeometry(.02,10,8),bulbs);b.position.copy(P(x,530,244-sag));root.add(b);}
+
+/* ---------- track lights ---------- */
+const spotM=M.steel;
+function rail(x0,y0,x1,y1){box(Math.min(x0,x1)-1.5,Math.max(x0,x1)+1.5,Math.min(y0,y1)-1.5,Math.max(y0,y1)+1.5,H-20,H-17,M.steel,G.ceiling);
+  for(const [x,y] of [[x0,y0],[x1,y1]]) box(x-.4,x+.4,y-.4,y+.4,H-17,H,M.steelLight,G.ceiling,false);}
+rail(40,150,330,150); rail(390,300,600,300); rail(300,330,300,330);
+const spotPos=[[70,150],[175,150],[290,150],[420,300],[500,300],[580,300]];
+for(const [x,y] of spotPos){const c=new THREE.Mesh(new THREE.CylinderGeometry(.035,.045,.12,16),spotM);c.position.copy(P(x,y,H-28));c.rotation.x=.4;G.ceiling.add(c);}
+
+/* ---------- lights ---------- */
+const hemi=new THREE.HemisphereLight(0xe6eef7,0x3a3027,1.1); scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff1dc,3.2);
+sun.position.copy(P(-700,180,900)); sun.target.position.copy(P(250,200,0)); scene.add(sun,sun.target);
+sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6,near:.5,far:30}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.02;
+const nightLights=new THREE.Group(); scene.add(nightLights);
+const addP=(c,i,x,y,h,d=6)=>{const l=new THREE.PointLight(c,i,d,2);l.position.copy(P(x,y,h));nightLights.add(l);return l;};
+for(const [x,y] of spotPos){const s=new THREE.SpotLight(0xffc28a,14,0,.75,.7,2);s.position.copy(P(x,y,H-30));s.target.position.copy(P(x+(x>360?(x<500?20:30):0),y>200?y-170:y+40,0));nightLights.add(s,s.target);}
+addP(0xffb36b,2.2,172,40,190,3); addP(0xffb36b,1.6,140,275,40,2.5); addP(0xffb36b,1.8,140,280,180,3);
+addP(0xff5a36,3,470,25,190,3.5); addP(0x9b6bff,2.2,536,25,212,3); addP(0x9fc4ff,1.2,492,60,120,2.2);
+addP(0xfff1dc,2,130,357,200,3); addP(0xffc77d,3.5,490,500,230,4.5); addP(0xffb36b,1.2,612,160,260,2.5);
+
+/* ---------- labels ---------- */
+for(const [n,t,d,p] of ITEMS){const el=document.createElement('div');el.className='lbl';el.textContent=n;el.title=`${t} — ${d}`;
+  const o=new CSS2DObject(el);o.position.copy(P(p[0],p[1],p[2]));G.labels.add(o);}
+
+/* ---------- state ---------- */
+const S={night:false,bed:false,divider:false,ceiling:false,cut:true,labels:true};
+let bedT=0,bedTarget=0,divT=0,divTarget=0;
+function applyNight(){
+  const n=S.night;
+  scene.background=new THREE.Color(n?0x07080b:0xcdd3d8);
+  hemi.intensity=n?.06:1.1; sun.visible=!n; scene.environmentIntensity=n?.08:.55;
+  nightLights.visible=n;
+  LED.warm.emissiveIntensity=n?4:.4; LED.studio.emissiveIntensity=n?3:.4; LED.bath.emissiveIntensity=n?3:.6;
+  SCR.forEach(m=>m.emissiveIntensity=n?1.1:.8); PADS.emissiveIntensity=n?1.6:.6; bulbs.emissiveIntensity=n?5:.2;
+  neonBolt.opacity=n?1:.85; neonText.opacity=n?1:.8;
+  renderer.toneMappingExposure=n?1.15:1;
+}
+function applyAll(){
+  applyNight();
+  bedTarget=S.bed?1:0; divTarget=S.divider?1:0;
+  G.ceiling.visible=S.ceiling; G.upper.visible=!S.cut; G.labels.visible=S.labels;
+  G.ctx.children.forEach(c=>{});
+  document.querySelectorAll('#toggles button').forEach(b=>b.classList.toggle('on',!!S[b.dataset.t]));
+}
+document.querySelectorAll('#toggles button').forEach(b=>b.onclick=()=>{S[b.dataset.t]=!S[b.dataset.t];applyAll();});
+
+const V=(x,y,h)=>P(x,y,h);
+const VIEWS={
+  general:{pos:new THREE.Vector3(-2.2,10.5,7.4),tgt:new THREE.Vector3(.15,-.2,.05),inside:false},
+  estudio:{pos:V(430,330,165),tgt:V(500,40,115),inside:true},
+  live:{pos:V(450,300,165),tgt:V(615,215,120),inside:true},
+  cama:{pos:V(172,72,112),tgt:V(140,290,125),inside:true,bed:true},
+  llegada:{pos:V(315,410,162),tgt:V(190,60,130),inside:true},
+  bano:{pos:V(248,312,170),tgt:V(30,385,105),inside:true},
+  terraza:{pos:V(600,532,165),tgt:V(420,250,140),inside:true},
+};
+let tw=null;
+function goView(k){const v=VIEWS[k];tw={t:0,fp:camera.position.clone(),ft:controls.target.clone(),tp:v.pos.clone(),tt:v.tgt.clone()};
+  S.ceiling=v.inside; S.cut=!v.inside; camera.fov=v.inside?64:42; camera.updateProjectionMatrix(); if(v.bed!==undefined) S.bed=v.bed; S.labels=!v.inside;
+  applyAll(); document.querySelectorAll('#views button').forEach(b=>b.classList.toggle('on',b.dataset.view===k));}
+document.querySelectorAll('#views button').forEach(b=>b.onclick=()=>goView(b.dataset.view));
+
+camera.position.copy(VIEWS.general.pos); controls.target.copy(VIEWS.general.tgt);
+placeDivider(0); applyAll();
+
+function resize(){const r=host.getBoundingClientRect();renderer.setSize(r.width,r.height);labelR.setSize(r.width,r.height);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
+new ResizeObserver(resize).observe(host); resize();
+
+const clock=new THREE.Clock();
+function setBedAngle(t){bedPivot.rotation.x=-Math.PI/2*(1-t);sofa.visible=t<.02;}
+function frame(fixed){
+  const dt=fixed||Math.min(clock.getDelta(),.05);
+  if(tw){tw.t=Math.min(1,tw.t+dt/1.5);const t=tw.t,e=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+    camera.position.lerpVectors(tw.fp,tw.tp,e);controls.target.lerpVectors(tw.ft,tw.tt,e);if(t>=1)tw=null;}
+  if(bedT!==bedTarget){bedT+=Math.sign(bedTarget-bedT)*dt/1.2;bedT=Math.max(0,Math.min(1,bedT));setBedAngle(bedT);}
+  if(divT!==divTarget){divT+=Math.sign(divTarget-divT)*dt/1;divT=Math.max(0,Math.min(1,divT));placeDivider(divT);}
+  controls.update(); renderer.render(scene,camera); labelR.render(scene,camera);
+}
+function loop(){frame();requestAnimationFrame(loop);}
+window.__loftFrame=(n=90)=>{for(let i=0;i<n;i++)frame(.05);};
+setBedAngle(0);
+document.getElementById('loading').remove();
+loop();
+</script>
+</body>
+</html>
