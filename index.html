@@ -228,7 +228,8 @@ footer .card{font-size:13.5px}
       <div class="card zone"><h3><span class="dot" style="background:#e8e2d6"></span>Baño</h3><div class="meta">255 × 111 cm · estilo de tus referentes</div>
         <ul>
           <li><b>Piso en baldosa hidráulica</b> blanco y negro de estilo clásico.</li>
-          <li><b>Ducha walk-in</b> de 90 cm con porcelanato tipo madera, nicho iluminado, regadera tipo lluvia negra y panel de vidrio fijo.</li>
+          <li><b>Tina compacta de inmersión con regadera</b> (~110 × 75 cm, 55–60 cm de profundidad) ocupando el ancho del baño, en el lugar de la ducha actual. Faldón en porcelanato tipo madera, mampara de vidrio fija sobre el borde, regadera tipo lluvia negra + ducha de mano y nicho iluminado.</li>
+          <li><b>Ojo con la medida:</b> el baño queda con ~111 cm libres de ancho después de enchapar, así que una tina estándar (150–170 cm) no cabe atravesada. Mide el ancho interior real antes de comprar; si da 120 cm o más, cabe una de 120.</li>
           <li><b>Muros en subway blanco</b>. Si al picar aparece ladrillo sano, se puede dejar a la vista y sellado en la zona seca.</li>
           <li><b>Mueble flotante de madera</b> con lavamanos blanco, espejo redondo de marco negro y aplique de pared.</li>
           <li><b>Griferías y accesorios negro mate</b>. La puerta abre hacia afuera para ganar espacio.</li>
@@ -303,7 +304,7 @@ footer .card{font-size:13.5px}
       <li><div><b>Instalaciones</b><span>Circuito dedicado para el estudio con polo a tierra real, tomas en escritorio, rack, TV, vinilos y terraza (IP65), cable de red Cat6 a escritorio y TV, hidráulica y desagües del baño, y desagüe de la terraza.</span></div></li>
       <li><div><b>Ventanería</b><span>Ventanal piso-techo con reja, puerta-ventana acústica y vidrio fijo del hall.</span></div></li>
       <li><div><b>Muros</b><span>Trasdosados acústicos, enchape de ladrillo, acabado tipo concreto y muro grafito del estudio.</span></div></li>
-      <li><div><b>Baño</b><span>Impermeabilizar la ducha, baldosa hidráulica, subway, porcelanato madera, aparatos y extractor.</span></div></li>
+      <li><div><b>Baño</b><span>Impermeabilizar la zona de la tina, desagüe y sifón de tina, baldosa hidráulica, subway, porcelanato madera, aparatos y extractor.</span></div></li>
       <li><div><b>Pisos</b><span>Manto acústico + SPC en el interior y deck en la terraza.</span></div></li>
       <li><div><b>Carpintería y metal</b><span>Murphy + closets, escritorio en L, mueble de TV, cubos de vinilos, divisor corredizo, pérgola y puerta de la escalera.</span></div></li>
       <li><div><b>Luz y acústica</b><span>Rieles, tiras LED y neón. Paneles, trampas de graves, nube y listones.</span></div></li>
@@ -351,7 +352,7 @@ const ITEMS = [
   [9,'Tapete persa','160 × 240 bajo la silla', [470,240,8]],
   [10,'Puerta-ventana acústica','Corrediza, vidrio laminado acústico', [490,401,215]],
   [11,'Terraza + pérgola de vidrio','Deck WPC · barra · jardín vertical', [480,480,265]],
-  [12,'Baño renovado','Baldosa hidráulica · ducha walk-in', [130,360,150]],
+  [12,'Baño renovado','Baldosa hidráulica · tina con regadera', [130,360,150]],
   [13,'Bodega en altillo','Sobre el baño · escalera removible', [130,360,262]],
   [14,'Viga de acero vista','Reemplaza el muro divisorio', [360,140,300]],
   [15,'Puerta acústica escalera','Acero + vidrio laminado', [313,419,200]],
@@ -406,7 +407,7 @@ function planSVG(mode){
     F(392,12,448,62); // rack
     F(575,250,620,390); // vinyl
     R(395,95,555,335,'rug');
-    F(0,302,90,413); F(100,365,170,413); F(185,345,225,413); // bath
+    F(0,302,80,413); R(8,309,72,406,'tub','rx="18"'); F(100,365,170,413); F(185,345,225,413); // bath
     F(590,420,618,520); // bar
     F(380,520,480,540); // planter
     F(267,413,360,421); // stair door
@@ -425,6 +426,7 @@ function planSVG(mode){
     .f{fill:rgba(255,255,255,.07);stroke:#8a8a93;stroke-width:1.4}
     .fbed{fill:rgba(233,163,90,.06);stroke:#e9a35a;stroke-width:1.4;stroke-dasharray:6 4}
     .rug{fill:rgba(140,40,40,.25);stroke:#a0473a;stroke-width:1.2}
+    .tub{fill:rgba(79,179,217,.18);stroke:#cfe3ec;stroke-width:1.4}
     .st{stroke:#55555c;stroke-width:1.2}.rail{stroke:#ddd;stroke-width:2.5}
     .hatch{stroke:#5a5a62;stroke-width:1.2}
     .lab{fill:#cfcfd4;font:600 18px Inter,sans-serif;text-anchor:middle}.lab.sm{font-size:14px;fill:#9a9aa3}
@@ -629,7 +631,6 @@ box(360,635,425,560,-300,-3,M.base,G.ctx,false);
 plane(0,620,0,395,0,rep(M.floor,5.2,3.3));
 plane(267,360,395,425,0,rep(M.floor,.8,.25));
 plane(0,255,302,413,.4,rep(M.hydraulic,3.2,1.4));
-plane(0,90,302,413,.6,rep(M.woodTile,1,1.2));
 plane(360,620,407,545,-2,rep(M.deck,2.2,1.2));
 
 /* ---------- exterior walls ---------- */
@@ -840,10 +841,15 @@ plantAt(25,268,1.1); plantAt(395,375,.9);
 
 /* ---------- BATHROOM ---------- */
 wall(0,1,302,413,0,222,rep(M.woodTile,1,2));
-wall(0,90,302,303,0,222,M.woodTile); wall(0,90,412,413,0,222,M.woodTile);
-wall(90,255,302,303,0,222,rep(M.subway,3.2,4.4)); wall(90,255,412,413,0,222,rep(M.subway,3.2,4.4));
+wall(0,80,302,303,0,222,M.woodTile); wall(0,80,412,413,0,222,M.woodTile);
+wall(80,255,302,303,0,222,rep(M.subway,3.2,4.4)); wall(80,255,412,413,0,222,rep(M.subway,3.2,4.4));
 box(1,3,330,390,110,140,LED.bath,root,false);
-wall(89,90.5,302,372,0,200,M.glass,false); wall(88,91,302,372,198,201,M.steel);
+// tina compacta de inmersión 110 x 78 con regadera
+box(1,7,303,412,0,58,M.ceramic); box(7,72,303,309,0,58,M.ceramic); box(7,72,406,412,0,58,M.ceramic);
+box(7,72,309,406,0,14,M.ceramic); box(72,80,303,412,0,58,rep(M.woodTile,.6,1)); box(71,81,303,412,56,59,M.ceramic);
+box(8,71,310,405,40,40.5,new THREE.MeshPhysicalMaterial({color:0x9fd3e0,transparent:true,opacity:.35,roughness:.05,depthWrite:false}),root,false);
+wall(74,75.5,303,362,59,205,M.glass,false); wall(73.5,76,303,362,203,206,M.steel); wall(73.5,76,360,362,59,205,M.steel);
+box(1,4,350,366,70,86,M.steel); box(1,5,385,389,62,110,M.steel); box(2,6,384,390,108,118,M.steel);
 {const d=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.015,32),M.steel);d.position.copy(P(45,357,205));root.add(d);
  box(44,46,302,357,206,208,M.steel);}
 box(100,170,365,412,45,85,M.oak); box(98,172,363,412,85,88,M.white);
@@ -947,12 +953,12 @@ const VIEWS={
   live:{pos:V(450,300,165),tgt:V(615,215,120),inside:true},
   cama:{pos:V(172,72,112),tgt:V(140,290,125),inside:true,bed:true},
   llegada:{pos:V(315,410,162),tgt:V(190,60,130),inside:true},
-  bano:{pos:V(248,312,170),tgt:V(30,385,105),inside:true},
+  bano:{pos:V(150,415,330),tgt:V(120,355,0),inside:true,cut:true},
   terraza:{pos:V(600,532,165),tgt:V(420,250,140),inside:true},
 };
 let tw=null;
 function goView(k){const v=VIEWS[k];tw={t:0,fp:camera.position.clone(),ft:controls.target.clone(),tp:v.pos.clone(),tt:v.tgt.clone()};
-  S.ceiling=v.inside; S.cut=!v.inside; camera.fov=v.inside?64:42; camera.updateProjectionMatrix(); if(v.bed!==undefined) S.bed=v.bed; S.labels=!v.inside;
+  S.ceiling=v.inside&&!v.cut; S.cut=!v.inside||!!v.cut; camera.fov=v.inside?64:42; camera.updateProjectionMatrix(); if(v.bed!==undefined) S.bed=v.bed; S.labels=!v.inside;
   applyAll(); document.querySelectorAll('#views button').forEach(b=>b.classList.toggle('on',b.dataset.view===k));}
 document.querySelectorAll('#views button').forEach(b=>b.onclick=()=>goView(b.dataset.view));
 
